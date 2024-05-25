@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="column is-4 is-offset-4">
+      <h2 class="title">Login</h2>
+      <div class="box">
+        <form (ngSubmit)="login()">
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+              <input class="input" type="email" [(ngModel)]="email" name="email" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" [(ngModel)]="password" name="password" required>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button class="button is-primary" type="submit">Login</button>
+            </div>
+          </div>
+        </form>
+        <p class="help is-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+    </div>
+  </div>
+  
