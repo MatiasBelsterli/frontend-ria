@@ -9,24 +9,26 @@ import { UserComponent } from './components/user/user.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProductListComponent,
-    UserComponent,
-    LoginComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule 
-  ],
-  providers: [
-    provideClientHydration(),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ProductListComponent,
+        UserComponent,
+        LoginComponent,
+        NavbarComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule
+    ],
+    providers: [
+        provideClientHydration(),
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
