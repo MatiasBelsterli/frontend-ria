@@ -20,7 +20,7 @@ export class LoginComponent {
     this.userService.login(credentials).subscribe(
       response => {
         localStorage.setItem('token', response.token);
-        this.router.navigate(['/']); // Redirige a la página principal o a la ruta deseada después del login
+        this.router.navigate(['/']);
       },
       error => {
         this.errorMessage = 'Invalid email or password';

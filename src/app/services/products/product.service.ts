@@ -21,12 +21,12 @@ export class ProductService {
   }
 
   createProduct(product: Product): Observable<Product> {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<Product>(this.apiUrl, product, { headers });
   }
 
   updateProduct(id: number, product: Product): Observable<Product> {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Product>(`${this.apiUrl}/${id}`, product, { headers });
   }
 
