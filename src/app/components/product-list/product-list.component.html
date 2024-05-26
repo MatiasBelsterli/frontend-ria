@@ -1,1 +1,14 @@
 <p>product-list works!</p>
+<section *ngIf="productList$ | async as productList; else loaderAndError">
+
+</section>
+<ng-template #loaderAndError>
+  <section *ngIf="hasError; else loader">
+    <p>Something went wrong. Please try again later.</p>
+  </section>
+  <ng-template #loader>
+    <div class="loader-wrapper">
+      <div class="loader is-loading"></div>
+    </div>
+  </ng-template>
+</ng-template>
