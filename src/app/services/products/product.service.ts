@@ -13,12 +13,7 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': localStorage.getItem('token')!
-      })
-    };
-    return this.http.get<Product[]>(this.apiUrl, httpOptions);
+    return this.http.get<Product[]>(this.apiUrl);
   }
 
   getProductById(id: number): Observable<Product> {

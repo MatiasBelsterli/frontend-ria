@@ -19,7 +19,7 @@ export class LoginComponent {
     const credentials = { email: this.email, password: this.password };
     this.userService.login(credentials).subscribe(
       response => {
-        sessionStorage.setItem('token', response.token);
+        localStorage.setItem('token', response.token);
         this.router.navigate(['/']);
       },
       error => {

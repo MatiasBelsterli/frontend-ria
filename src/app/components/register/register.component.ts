@@ -27,8 +27,6 @@ export class RegisterComponent {
     });
   }
 
-
-
   onSubmit() {
     this.formSubmitted = true;
     if (this.registerForm.valid) {
