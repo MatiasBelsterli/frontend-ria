@@ -1,6 +1,8 @@
 <p>product-list works!</p>
 <section *ngIf="productList$ | async as productList; else loaderAndError">
-
+  <div class="product-list">
+    <app-product-card *ngFor="let product of productList" [product]="product" />
+  </div>
 </section>
 <ng-template #loaderAndError>
   <section *ngIf="hasError; else loader">

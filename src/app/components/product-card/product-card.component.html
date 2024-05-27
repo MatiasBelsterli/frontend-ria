@@ -1,0 +1,11 @@
+<div *ngIf="product" class="product-card">
+  <div class="product-card__image">
+    <img [src]="product.image" [alt]="product.name" />
+  </div>
+  <div class="product-card__content">
+    <h2 class="product-card__title">{{ product.name }}</h2>
+    <p class="product-card__description">{{ product.description }}</p>
+    <p class="product-card__price">{{ product.price | currency }}</p>
+    <button class="product-card__button" (click)="addToCart(product)">Add to cart</button>
+  </div>
+</div>

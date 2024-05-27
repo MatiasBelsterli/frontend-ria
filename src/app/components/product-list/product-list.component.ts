@@ -15,7 +15,8 @@ export class ProductListComponent {
     this.productList$ = this.productService.getProducts().pipe(catchError(err => {
       console.error('Error getting products', err);
       this.hasError = true;
-      throw new Error(err);
+      // throw new Error(err);
+      return [];
     }));
   }
 }
