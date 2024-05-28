@@ -13,16 +13,15 @@ export class ProductCreateComponent {
   formSubmitted: boolean = false;
   isLoading: boolean = false;
 
-  nameProduct = '';
+  productName = '';
 
   constructor(fb: FormBuilder, private productService: ProductService) {
     this.productForm = fb.group({
       name: ['', Validators.required],
       price: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      desc: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
-
 
   onSubmit() {
     this.formSubmitted = true;
@@ -31,7 +30,7 @@ export class ProductCreateComponent {
       this.productService.createProduct(this.productForm.value).subscribe((res) => {
         console.log('Product created:', res);
         this.isLoading = false;
-        this.nameProduct = this.productForm.get('name')!.value;
+        this.productName = this.productForm.get('name')!.value;
         document.querySelector('.notification')?.classList.remove('is-hidden');
         this.productForm.reset();
       });
