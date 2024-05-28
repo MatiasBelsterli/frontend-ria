@@ -1,28 +1,33 @@
 <div class="container">
-    <div class="column is-4 is-offset-4">
-      <h2 class="title">Login</h2>
-      <div class="box">
-        <form (ngSubmit)="login()">
-          <div class="field">
-            <label class="label">Email</label>
-            <div class="control">
-              <input class="input" type="email" [(ngModel)]="email" name="email" required>
-            </div>
+  <div class="column is-4 is-offset-4">
+    <h2 class="title">Login</h2>
+    <div class="box">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="email" placeholder="Email input" formControlName="email">
+            <span class="icon is-small is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
           </div>
-          <div class="field">
-            <label class="label">Password</label>
-            <div class="control">
-              <input class="input" type="password" [(ngModel)]="password" name="password" required>
-            </div>
+        </div>
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="password" placeholder="Password Here" formControlName="password">
+            <span class="icon is-small is-left">
+              <i class="fas fa-lock"></i>
+            </span>
           </div>
-          <div class="field">
-            <div class="control">
-              <button class="button is-primary" type="submit">Login</button>
-            </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button class="button is-primary" type="submit">Login</button>
           </div>
-        </form>
-        <p class="help is-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
-      </div>
+        </div>
+      </form>
+      <p class="help is-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
     </div>
   </div>
-  
+</div>

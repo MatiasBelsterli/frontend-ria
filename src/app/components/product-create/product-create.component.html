@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="notification is-primary is-hidden">
+    <button class="delete" (click)="deleteNotification($event)"></button>
+    Product <span class="title is-6">{{nameProduct}}</span> created successfully
+  </div>
+  <div class="column is-4 is-offset-4">
+    <h2 class="title">Create New Product</h2>
+    <div class="box">
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Name input" formControlName="name">
+          </div>
+          <p class="help is-danger"
+            *ngIf="(productForm.get('name')?.invalid && productForm.get('name')?.touched) || (formSubmitted && productForm.get('name')?.invalid)">
+            This name is invalid
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="label">Price</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Price Here" formControlName="price">
+          </div>
+          <p class="help is-danger"
+            *ngIf="(productForm.get('price')?.invalid && productForm.get('price')?.touched) || (formSubmitted && productForm.get('price')?.invalid)">
+            This price is invalid
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="label">Description</label>
+          <div class="control">
+            <textarea class="textarea" placeholder="Textarea" formControlName="desc"></textarea>
+          </div>
+          <p class="help is-danger"
+            *ngIf="(productForm.get('desc')?.invalid && productForm.get('desc')?.touched) || (formSubmitted && productForm.get('desc')?.invalid)">
+            This description is invalid
+          </p>
+        </div>
+        <!--    DES-COMENTAR CUANDO TENGA GANAS DE EMPEZAR CON LA INSERCION DE UNA IMAGEN
+        <div class="file">
+          <label class="file-label">
+            <input class="file-input" type="image" name="resume" />
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fas fa-upload"></i>
+              </span>
+              <span class="file-label"> Choose a file… </span>
+            </span>
+          </label>
+        </div> -->
+        {{isLoading}}
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" [ngClass]="{'is-loading': isLoading}">Create Product</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
