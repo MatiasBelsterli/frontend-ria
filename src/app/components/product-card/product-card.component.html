@@ -1,0 +1,22 @@
+<div *ngIf="product" class="card cell">
+  <div class="card-image">
+    <figure class="image is-4by3">
+      <img src="https://bulma.io/assets/images/placeholders/1280x960.png" [alt]="product.name" />
+    </figure>
+  </div>
+  <div class="card-content">
+    <div class="media">
+      <div class="media-content">
+        <p class="title is-4">{{ product.name }}</p>
+        <p class="subtitle is-6">{{ product.price | currency }}</p>
+      </div>
+    </div>
+    <button class="product-card__button" (click)="addToCart(product)">Add to cart</button>
+
+    <div class="content">
+      {{ product.description }}
+      <br />
+      <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+    </div>
+  </div>
+</div>

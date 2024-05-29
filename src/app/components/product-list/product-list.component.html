@@ -1,6 +1,11 @@
-<p>product-list works!</p>
-<section *ngIf="productList$ | async as productList; else loaderAndError">
-
+<section class="container fixed-grid has-4-cols" *ngIf="productList$ | async as productList; else loaderAndError">
+  <h2 class="section-title">Products</h2>
+  <div class="button-group">
+    <a class="button" [routerLink]="['/products/new']">New product</a>
+  </div>
+  <div class="product-list grid">
+    <app-product-card *ngFor="let product of productList" [product]="product" />
+  </div>
 </section>
 <ng-template #loaderAndError>
   <section *ngIf="hasError; else loader">

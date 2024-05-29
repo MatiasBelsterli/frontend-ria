@@ -1,12 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../services/users/user.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+  public isLogged: boolean = false;
   private theme: string = 'dark';
+
+  constructor(private userService: UserService) { }
+
+  ngOnInit() {
+    this.userService.isLoggedIn.subscribe(loggedIn => {
+      this.isLogged = loggedIn;
+    });
+  }
 
   toggleTheme() {
     this.theme = this.theme === 'light' ? 'dark' : 'light';
@@ -15,5 +25,9 @@ export class NavbarComponent {
 
   getCurrentTheme() {
     return this.theme;
+  }
+
+  logout() {
+    this.userService.logout();
   }
 }
