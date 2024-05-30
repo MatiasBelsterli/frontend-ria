@@ -13,6 +13,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ProductCreateComponent } from './components/product-create/product-create.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ProductCreateComponent } from './components/product-create/product-crea
     RegisterComponent,
     ProductCardComponent,
     ProductCreateComponent,
+    ShoppingCartComponent,
   ],
   imports: [
     BrowserModule,
