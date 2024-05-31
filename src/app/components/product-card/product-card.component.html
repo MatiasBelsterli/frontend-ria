@@ -11,7 +11,35 @@
         <p class="subtitle is-6">{{ product.price | currency }}</p>
       </div>
     </div>
-    <button class="product-card__button" (click)="addToCart(product)">Add to cart</button>
+
+    <div class="grid-container">
+      <div class="field has-addons input-container">
+        <p class="control">
+          <a class="button is-rounded">
+            <span class="icon is-small">
+              <button class="button is-borderless is-small" (click)="decreaseQuantity()">-</button>
+            </span>
+          </a>
+        </p>
+        <p class="control">
+          <a class="button is-rounded">
+            <span class="icon is-small">
+              <input class="input no-arrows is-small is-borderless" type="number" [(ngModel)]="quantity" min="1" />
+            </span>
+          </a>
+        </p>
+        <p class="control">
+          <a class="button is-rounded">
+            <span class="icon is-small">
+              <button class="button is-small is-borderless" (click)="increaseQuantity()">+</button>
+            </span>
+          </a>
+        </p>
+      </div>
+      <p class="control">
+            <button class="button is-rounded" (click)="addToCart(product, quantity)">Add to cart</button>
+      </p>
+    </div>
 
     <div class="content">
       {{ product.description }}
