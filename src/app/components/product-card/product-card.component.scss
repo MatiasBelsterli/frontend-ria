@@ -1,0 +1,36 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: space-between;
+  gap: 10px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.no-rounded {
+    border-radius: 0 !important;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+input.no-arrows {
+  -webkit-appearance: none; /* Safari and Chrome */
+  -moz-appearance: textfield; /* Firefox */
+}

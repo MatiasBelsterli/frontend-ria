@@ -13,7 +13,10 @@
             </span>
           </div>
           <p class="help is-danger"
-            *ngIf="(registerForm.get('email')?.invalid && registerForm.get('email')?.touched) || (formSubmitted && registerForm.get('email')?.invalid)">
+            *ngIf="((registerForm.get('email')?.touched || formSubmitted) && registerForm.get('email')?.hasError('required'))">
+            This email is required
+          </p>
+          <p class="help is-danger" *ngIf="(registerForm.get('email')?.hasError('email'))">
             This email is invalid
           </p>
         </div>
@@ -27,11 +30,25 @@
             </span>
           </div>
           <p class="help is-danger"
-            *ngIf="(registerForm.get('password')?.invalid && registerForm.get('password')?.touched) || (formSubmitted && registerForm.get('password')?.invalid)">
-            This password is invalid
+            *ngIf="((registerForm.get('password')?.touched || formSubmitted) && registerForm.get('password')?.hasError('required'))">
+            This password is required
+          </p>
+          <p class="help is-danger" *ngIf="(registerForm.get('password')?.hasError('minlength'))">
+            The password must be at least 8 characters
           </p>
         </div>
-
+        <div class="field">
+          <label class="label">Password Confirm</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="password" placeholder="Password Confirm Here" formControlName="passwordConfirm">
+            <span class="icon is-small is-left">
+              <i class="fas fa-lock"></i>
+            </span>
+          </div>
+          <p class="help is-danger" *ngIf="(registerForm.get('passwordConfirm')?.hasError('passwordMismatch'))">
+            The password confirm is invalid
+          </p>
+        </div>
         <div class="field">
           <label class="label">User Role</label>
           <div class="select">
@@ -56,8 +73,14 @@
             </span>
           </div>
           <p class="help is-danger"
-            *ngIf="(registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched) || (formSubmitted && registerForm.get('phone')?.invalid)">
-            This phone is invalid
+            *ngIf="((registerForm.get('phone')?.touched || formSubmitted) && registerForm.get('phone')?.hasError('required'))">
+            This phone is required
+          </p>
+          <p class="help is-danger" *ngIf="(registerForm.get('phone')?.hasError('minlength'))">
+            The phone must be at least 9 characters
+          </p>
+          <p class="help is-danger" *ngIf="(registerForm.get('phone')?.hasError('maxlength'))">
+            The phone must be at most 9 characters
           </p>
         </div>
 
