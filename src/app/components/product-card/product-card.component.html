@@ -1,4 +1,4 @@
-<div *ngIf="product" class="card cell">
+<div class="card cell">
   <div class="card-image">
     <figure class="image is-4by3">
       <img src="https://bulma.io/assets/images/placeholders/1280x960.png" [alt]="product.name" />
@@ -18,7 +18,7 @@
           <button class="button rounded-left-corners" (click)="decreaseQuantity()">-</button>
         </p>
         <p class="control">
-          <input class="input no-rounded is-centered" type="number" [(ngModel)]="quantity" min="1" />
+          <input class="input no-rounded is-centered" type="number" [(ngModel)]="quantity" min="1" required />
         </p>
         <p class="control">
           <button class="button rounded-right-corners" (click)="increaseQuantity()">+</button>
@@ -26,7 +26,7 @@
       </div>
 
       <p class="control">
-        <button class="button is-rounded" (click)="addToCart(product, quantity)">Add to cart</button>
+        <button class="button is-rounded" (click)="addToCart()">Add to cart</button>
       </p>
     </div>
 
