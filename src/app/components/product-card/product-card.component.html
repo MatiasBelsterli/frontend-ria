@@ -13,31 +13,21 @@
     </div>
 
     <div class="grid-container">
-      <div class="field has-addons input-container">
+      <div class="is-flex">
         <p class="control">
-          <a class="button is-rounded">
-            <span class="icon is-small">
-              <button class="button is-borderless is-small" (click)="decreaseQuantity()">-</button>
-            </span>
-          </a>
+          <button class="button rounded-left-corners" (click)="decreaseQuantity()">-</button>
         </p>
         <p class="control">
-          <a class="button is-rounded">
-            <span class="icon is-small">
-              <input class="input no-arrows is-small is-borderless" type="number" [(ngModel)]="quantity" min="1" />
-            </span>
-          </a>
+          <!-- <input class="button is-rounded is-small" (click)="addToCart(product, quantity)">0</input> -->
+          <input class="input no-rounded" type="number" [(ngModel)]="quantity" min="1" />
         </p>
         <p class="control">
-          <a class="button is-rounded">
-            <span class="icon is-small">
-              <button class="button is-small is-borderless" (click)="increaseQuantity()">+</button>
-            </span>
-          </a>
+          <button class="button rounded-right-corners" (click)="increaseQuantity()">+</button>
         </p>
       </div>
+
       <p class="control">
-            <button class="button is-rounded" (click)="addToCart(product, quantity)">Add to cart</button>
+        <button class="button is-rounded" (click)="addToCart(product, quantity)">Add to cart</button>
       </p>
     </div>
 
