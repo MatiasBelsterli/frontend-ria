@@ -15,6 +15,7 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { ProductCreateComponent } from './components/product-create/product-create.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
+import { ShoppingCartProductComponent } from './components/shopping-cart-product/shopping-cart-product.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { OrderListComponent } from './components/order-list/order-list.component
     ProductCreateComponent,
     ShoppingCartComponent,
     OrderListComponent,
+    ShoppingCartProductComponent,
   ],
   imports: [
     BrowserModule,

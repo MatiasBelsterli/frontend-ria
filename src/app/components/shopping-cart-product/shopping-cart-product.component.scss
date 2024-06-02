@@ -1,0 +1,46 @@
+.no-rounded {
+  border-radius: 0 !important;
+}
+
+.rounded-left-corners {
+  border-radius: 25px 0 0 25px;
+}
+
+.rounded-right-corners {
+  border-radius: 0 25px 25px 0;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  /* Firefox */
+}
+
+input.no-arrows {
+  -webkit-appearance: none;
+  /* Safari and Chrome */
+  -moz-appearance: textfield;
+  /* Firefox */
+}
+
+.has-warning-border {
+  outline: 2px solid #ffcc00;
+  animation: blink-border 1s ease-in-out infinite;
+}
+
+@keyframes blink-border {
+
+  0%,
+  100% {
+    outline-color: #ffcc00;
+  }
+
+  50% {
+    outline-color: transparent;
+  }
+}
