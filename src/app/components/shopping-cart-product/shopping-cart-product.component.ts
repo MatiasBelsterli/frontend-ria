@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Product } from '../../models/products/product.model';
 
 @Component({
@@ -6,7 +6,7 @@ import { Product } from '../../models/products/product.model';
   templateUrl: './shopping-cart-product.component.html',
   styleUrl: './shopping-cart-product.component.scss'
 })
-export class ShoppingCartProductComponent {
+export class ShoppingCartProductComponent implements OnInit{
   @Input({ required: true }) product!: Product;
   @Input({ required: true }) initialQuantity!: number;
   @Output() newerQuantity = new EventEmitter<{ id: number, quantity: number }>;
