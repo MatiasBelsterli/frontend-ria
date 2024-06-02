@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Product } from '../../models/products/product.model';
 
 @Injectable({
@@ -6,52 +8,28 @@ import { Product } from '../../models/products/product.model';
 })
 export class CartService {
 
-  private cartKey = 'cart';
+  private apiUrl = 'http://localhost:3000/cart';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  add(product: Product, quantity: number) {
-    const cart = this.getCart();
-    const existingProduct = cart.find(item => item.product.id === product.id);
-
-    if (existingProduct) {
-      existingProduct.quantity += quantity;
-    } else {
-      cart.push({ product, quantity });
-    }
-    this.saveCart(cart);
+  add(product: Product, quantity: number): Observable<any> {
+    return this.http.post(this.apiUrl, { productId: product.id, quantity });
   }
 
-  remove(productId: number) {
-    let cart = this.getCart();
-    cart = cart.filter(item => item.product.id !== productId);
-    this.saveCart(cart);
+  remove(productId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${productId}`);
   }
 
-  updateQuantity(productId: number, quantity: number) {
-    const cart = this.getCart();
-    const existingProduct = cart.find(item => item.product.id === productId);
-
-    if (existingProduct) {
-      existingProduct.quantity = quantity;
-      if (quantity === 0) {
-        return this.remove(productId);
-      }
-    }
-
-    this.saveCart(cart);
+  updateQuantity(productId: number, quantity: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${productId}`, { quantity });
   }
 
-  getCart(): { product: Product, quantity: number }[] {
-    const cart = localStorage.getItem(this.cartKey);
-    return cart ? JSON.parse(cart) : [];
+  getCart(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
   }
 
-  clearCart() {
-    localStorage.removeItem(this.cartKey);
-  }
-
-  private saveCart(cart: { product: Product, quantity: number }[]) {
-    localStorage.setItem(this.cartKey, JSON.stringify(cart));
+  clearCart(): Observable<any> {
+    return this.http.delete(this.apiUrl);
   }
 }
+

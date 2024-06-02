@@ -3,7 +3,7 @@
 
   <div class="is-flex is-flex-direction-column has-visible-pointer-controls p-2"
     *ngFor="let cartProduct of cartProducts; let i = index">
-    <app-shopping-cart-product [product]="cartProduct.product" [initialQuantity]="cartProduct.quantity"
+    <app-shopping-cart-product [product]="cartProduct" [initialQuantity]="cartProduct.quantity!!"
       (newerQuantity)="updateQuantity($event)" />
   </div>
   <button *ngIf="cartProducts.length > 0" [disabled]="requireUpdate" class="button title is-4 ml-2 mt-6"

@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Order } from "../../models/orders/order.model";
 import { OrderStatus } from "../../enums/order-status";
+import { Product } from "../../models/products/product.model";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,12 @@ export class OrderService {
     return !!localStorage.getItem('token');
   }
 
-  createOrder(productCart: { productId: number, quantity: number }[]): Observable<Order> {
+  createOrder(products: Product[]): Observable<Order> {
+    const productCart: { productId: number, quantity: number }[] = products.map(product => ({
+      productId: product.id,
+      quantity: product.quantity ?? 1
+    }));
+
     return this.http.post<Order>(this.apiUrl, { products: productCart });
   }
 }

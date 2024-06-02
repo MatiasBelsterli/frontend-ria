@@ -25,7 +25,7 @@ export class ProductCardComponent {
       this.quantity = 0
       return
     };
-    this.cartService.add(this.product, this.quantity);
+    this.cartService.add(this.product, this.quantity).subscribe();
     this.quantity = 0
     toast({
       message: 'Product added to cart!      ',
