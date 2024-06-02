@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from '../../models/products/product.model';
-import { CartService } from '../../services/cart/cart.service';
 
 @Component({
   selector: 'app-shopping-cart-product',
@@ -10,26 +9,31 @@ import { CartService } from '../../services/cart/cart.service';
 export class ShoppingCartProductComponent {
   @Input({ required: true }) product!: Product;
   @Input({ required: true }) initialQuantity!: number;
+  @Output() newerQuantity = new EventEmitter<{ id: number, quantity: number }>;
+
   quantity: number = 0;
 
-  constructor(private cartService: CartService) { }
   ngOnInit() {
     this.quantity = this.initialQuantity;
   }
 
+  emitNewQuantity() {
+    if (this.quantity < 0) this.quantity = 0;
+    if (this.initialQuantity === this.quantity) {
+      this.newerQuantity.emit({ id: this.product.id, quantity: -1 })
+    } else {
+      this.newerQuantity.emit({ id: this.product.id, quantity: this.quantity });
+    }
+  }
 
   increaseQuantity() {
     this.quantity++;
+    this.emitNewQuantity();
   }
 
   decreaseQuantity() {
     if (this.quantity > 0) this.quantity--;
+    this.emitNewQuantity();
   }
 
-  updateQuantity() {
-    if (this.quantity < 0) this.quantity = 0;
-    if (this.initialQuantity === this.quantity) return;
-    this.cartService.updateQuantity(this.product.id, this.quantity);
-    this.initialQuantity = this.quantity;
-  }
 }
