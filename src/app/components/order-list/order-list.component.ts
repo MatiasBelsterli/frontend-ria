@@ -28,7 +28,6 @@ export class OrderListComponent implements OnInit {
     ).subscribe(
       orders => {
         this.orderList = orders;
-        console.log('orders:', this.orderList);
       },
       error => {
         console.error('Error subscribing to orders', error);
