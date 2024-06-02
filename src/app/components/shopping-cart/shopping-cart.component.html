@@ -1,1 +1,12 @@
-<p>shopping-cart works!</p>
+<div class="container" id="cart" data-example>
+  <h1 class="title is-4 mb-2">Cart</h1>
+
+  <div class="is-flex is-flex-direction-column has-visible-pointer-controls p-2"
+    *ngFor="let cartProduct of cartProducts; let i = index">
+    <app-shopping-cart-product [product]="cartProduct.product" [initialQuantity]="cartProduct.quantity" />
+  </div>
+  <button *ngIf="cartProducts.length > 0" class="button title is-4 ml-2 mt-6" (click)="orderProducts()">Order</button>
+  <div *ngIf="cartProducts.length === 0" class="is-flex is-flex-direction-column has-visible-pointer-controls p-2">
+    <h2 class="title is-4">Your cart is empty</h2>
+  </div>
+</div>

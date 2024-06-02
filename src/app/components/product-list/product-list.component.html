@@ -1,4 +1,5 @@
-<section class="container fixed-grid has-4-cols" *ngIf="productList$ | async as productList; else loaderAndError">
+<section class="container fixed-grid has-1-cols has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen"
+  *ngIf="productList$ | async as productList; else loaderAndError">
   <h2 class="section-title mb-1">Products</h2>
   <div class="button-group mb-4">
     <a class="button" [routerLink]="['/products/new']">New product</a>

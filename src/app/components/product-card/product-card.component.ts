@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Product } from '../../models/products/product.model';
 import { CartService } from '../../services/cart/cart.service';
+import { toast } from 'bulma-toast';
 
 @Component({
   selector: 'app-product-card',
@@ -8,13 +9,22 @@ import { CartService } from '../../services/cart/cart.service';
   styleUrl: './product-card.component.scss'
 })
 export class ProductCardComponent {
-  constructor(private cartService: CartService) {}
-  
-  @Input() product?: Product;
+  constructor(private cartService: CartService) { }
+
+  @Input({ required: true }) product!: Product;
   quantity: number = 0;
 
-  addToCart(product: Product, quantity: number) {
-    this.cartService.add(product, quantity);
+  addToCart() {
+    if (this.quantity < 1) return;
+    this.cartService.add(this.product, this.quantity);
+    this.quantity = 0
+    toast({
+      message: 'Product added to cart!      ',
+      type: 'is-success',
+      position: 'top-center',
+      duration: 3000,
+      dismissible: true,
+    })
   }
 
   increaseQuantity() {
@@ -22,8 +32,6 @@ export class ProductCardComponent {
   }
 
   decreaseQuantity() {
-    if (this.quantity > 0) {
-      this.quantity--;
-    }
+    if (this.quantity > 0) this.quantity--;
   }
 }
