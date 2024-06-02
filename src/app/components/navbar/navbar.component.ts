@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/users/user.service';
+import { AuthService } from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-navbar',
@@ -10,10 +10,11 @@ export class NavbarComponent implements OnInit {
   public isLogged: boolean = false;
   private theme: string = 'dark';
 
-  constructor(private userService: UserService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.userService.isLoggedIn.subscribe(loggedIn => {
+    this.authService.checkTokenValidity();
+    this.authService.isLoggedIn.subscribe(loggedIn => {
       this.isLogged = loggedIn;
     });
   }
@@ -28,6 +29,6 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.userService.logout();
+    this.authService.logout();
   }
 }
