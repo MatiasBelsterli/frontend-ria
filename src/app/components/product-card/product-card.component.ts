@@ -15,7 +15,16 @@ export class ProductCardComponent {
   quantity: number = 0;
 
   addToCart() {
-    if (this.quantity < 1) return;
+    if (this.quantity < 1) {
+      toast({
+        message: 'Please select a valid quantity!',
+        type: 'is-danger',
+        position: 'top-center',
+        duration: 2000,
+      })
+      this.quantity = 0
+      return
+    };
     this.cartService.add(this.product, this.quantity);
     this.quantity = 0
     toast({

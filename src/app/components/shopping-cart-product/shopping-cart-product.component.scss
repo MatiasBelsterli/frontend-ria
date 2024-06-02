@@ -27,20 +27,3 @@ input.no-arrows {
   -moz-appearance: textfield;
   /* Firefox */
 }
-
-.has-warning-border {
-  outline: 2px solid #ffcc00;
-  animation: blink-border 1s ease-in-out infinite;
-}
-
-@keyframes blink-border {
-
-  0%,
-  100% {
-    outline-color: #ffcc00;
-  }
-
-  50% {
-    outline-color: transparent;
-  }
-}

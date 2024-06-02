@@ -12,7 +12,7 @@
 
   <div class="is-flex-shrink-0">
     <div class="is-flex is-align-items-center">
-      <span>{{product.price | currency}}</span>
+      <span>{{product.price | currency}} ea</span>
 
       <div class="control ml-3 is-hidden-mobile">
         <div class="is-flex">
@@ -29,21 +29,6 @@
         </div>
       </div>
 
-      <div class="buttons ml-3">
-        <button class="button is-hidden-mobile" (click)="updateQuantity()"
-          [ngClass]="{'has-warning-border': initialQuantity !== quantity}">
-          <span class="icon">
-            <i class="fas fa-sync-alt"></i>
-          </span>
-          <span>Update</span>
-        </button>
-
-        <button class="button is-hidden-tablet">
-          <span class="icon">
-            <i class="fas fa-pencil-alt"></i>
-          </span>
-        </button>
-      </div>
     </div>
   </div>
 </div>

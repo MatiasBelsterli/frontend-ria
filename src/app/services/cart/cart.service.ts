@@ -34,6 +34,9 @@ export class CartService {
 
     if (existingProduct) {
       existingProduct.quantity = quantity;
+      if (quantity === 0) {
+        return this.remove(productId);
+      }
     }
 
     this.saveCart(cart);
