@@ -10,7 +10,7 @@ import { HttpClient } from "@angular/common/http";
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   private apiUrl = 'http://localhost:3000/users';
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) { }
 
   get isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
@@ -31,6 +31,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
         localStorage.setItem('token', response.token);
+        localStorage.setItem('role', response.role);
         this.loggedIn.next(true);
       }),
       catchError(this.handleError)
@@ -39,6 +40,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }
