@@ -36,4 +36,21 @@ export class OrderService {
 
     return this.http.post<Order>(this.apiUrl, { products: productCart });
   }
+
+  getOrdersToBakers() {
+    return this.http.get<Order[]>(`${this.apiUrl}/bakers`);
+  }
+
+  takeOrderToBaker(orderId: number) {
+    return this.http.patch<Order>(`${this.apiUrl}/bakers/${orderId}`, {});
+  }
+
+  getOrdersByBaker() {
+    return this.http.get<Order[]>(`${this.apiUrl}/baker`);
+  }
+
+  completeOrderByBaker(orderId: number) {
+    return this.http.patch<Order>(`${this.apiUrl}/bakers/${orderId}`, { status: OrderStatus.COMPLETED });
+  }
+
 }
