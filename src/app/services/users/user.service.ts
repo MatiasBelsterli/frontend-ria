@@ -12,10 +12,6 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  get isLoggedIn(): Observable<boolean> {
-    return this.loggedIn.asObservable();
-  }
-
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
@@ -34,11 +30,6 @@ export class UserService {
       }),
       catchError(this.handleError)
     );
-  }
-
-  logout(): void {
-    localStorage.removeItem('token');
-    this.loggedIn.next(false);
   }
 
   changePassword(data: any): Observable<any> {

@@ -1,6 +1,11 @@
 <div class="container">
   <h1 class="title">Order List</h1>
-  <table class="table is-striped is-hoverable is-fullwidth">
+  <div *ngIf="orderList.length === 0" class="notification is-info">
+    <p>
+      It looks like you haven't placed any orders yet. You can add the products you want to your cart and place an order.
+    </p>
+  </div>
+  <table class="table is-striped is-hoverable is-fullwidth" *ngIf="orderList.length > 0">
     <thead>
     <tr>
       <th>Request Date</th>
