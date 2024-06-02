@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../services/users/user.service';
+import { AuthService } from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-register',
@@ -11,7 +11,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   formSubmitted = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -48,7 +48,7 @@ export class RegisterComponent {
     this.formSubmitted = true;
     if (this.registerForm.valid) {
       console.log('Form is valid');
-      this.userService.register(this.registerForm.value).subscribe({
+      this.authService.register(this.registerForm.value).subscribe({
         next: response => {
           console.log('User registered successfully');
         },

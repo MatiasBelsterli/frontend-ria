@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/users/user.service';
+import { AuthService } from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-user',
@@ -8,16 +9,16 @@ import { UserService } from '../../services/users/user.service';
 })
 export class UserComponent {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private authService: AuthService) { }
 
   registerUser(user: any): void {
-    this.userService.register(user).subscribe(response => {
+    this.authService.register(user).subscribe(response => {
       console.log('User registered:', response);
     });
   }
 
   loginUser(credentials: any): void {
-    this.userService.login(credentials).subscribe(response => {
+    this.authService.login(credentials).subscribe(response => {
       console.log('User logged in:', response);
       localStorage.setItem('token', response.token);
     });
