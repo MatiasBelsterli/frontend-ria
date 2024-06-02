@@ -29,7 +29,6 @@ export class ShoppingCartProductComponent {
   updateQuantity() {
     if (this.quantity < 0) this.quantity = 0;
     if (this.initialQuantity === this.quantity) return;
-    // console.log(`Updating quantity of ${this.initialQuantity} to ${this.quantity}`);
     this.cartService.updateQuantity(this.product.id, this.quantity);
     this.initialQuantity = this.quantity;
   }
