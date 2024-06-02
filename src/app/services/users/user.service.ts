@@ -16,22 +16,6 @@ export class UserService {
     return !!localStorage.getItem('token');
   }
 
-  register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response: any) => {
-        localStorage.setItem('token', response.token);
-        this.loggedIn.next(true);
-      }),
-      catchError(this.handleError)
-    );
-  }
-
   changePassword(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/change-password`, data).pipe(
       catchError(this.handleError)

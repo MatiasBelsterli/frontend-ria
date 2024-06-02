@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { catchError, tap } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
-
-  constructor(private router: Router) {}
+  private apiUrl = 'http://localhost:3000/users';
+  constructor(private router: Router, private http: HttpClient) {}
 
   get isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
@@ -19,9 +21,20 @@ export class AuthService {
     return !!token;
   }
 
-  login(token: string) {
-    localStorage.setItem('token', token);
-    this.loggedIn.next(true);
+  register(user: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  login(credentials: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response: any) => {
+        localStorage.setItem('token', response.token);
+        this.loggedIn.next(true);
+      }),
+      catchError(this.handleError)
+    );
   }
 
   logout() {
@@ -52,5 +65,10 @@ export class AuthService {
     } catch (e) {
       return false;
     }
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred', error);
+    return throwError(error);
   }
 }
