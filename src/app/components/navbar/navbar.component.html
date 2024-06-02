@@ -3,7 +3,9 @@
     <div class="navbar-start">
       <a class="navbar-item" routerLink="/">Home</a>
       <a *ngIf="isLogged" class="navbar-item" routerLink="/products">Products</a>
-      <a *ngIf="isLogged" class="navbar-item" routerLink="/orders">My Orders</a>
+      <a *ngIf="isLogged" class="navbar-item" routerLink="/orders">
+        {{userType === 'BAKER' ? 'Orders' : 'My Orders'}}</a>
+      <a *ngIf="isLogged && userType === 'BAKER'" class="navbar-item" routerLink="/myorders">My Orders</a>
     </div>
 
     <div class="navbar-end">

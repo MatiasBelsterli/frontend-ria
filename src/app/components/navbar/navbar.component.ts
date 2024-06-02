@@ -9,13 +9,18 @@ import { AuthService } from "../../services/auth/auth.service";
 export class NavbarComponent implements OnInit {
   public isLogged: boolean = false;
   private theme: string = 'dark';
+  public userType: string = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {
+  }
 
   ngOnInit() {
     this.authService.checkTokenValidity();
     this.authService.isLoggedIn.subscribe(loggedIn => {
       this.isLogged = loggedIn;
+    });
+    this.authService.isUserType.subscribe(userType => {
+      this.userType = userType;
     });
   }
 

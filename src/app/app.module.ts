@@ -16,6 +16,9 @@ import { ProductCreateComponent } from './components/product-create/product-crea
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
 import { ShoppingCartProductComponent } from './components/shopping-cart-product/shopping-cart-product.component';
+import { UserViewComponent } from './components/order-list/user-view/user-view.component';
+import { BakerViewComponent } from './components/order-list/baker-view/baker-view.component';
+import { BakerOrderListComponent } from './components/baker-order-list/baker-order-list.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { ShoppingCartProductComponent } from './components/shopping-cart-product
     ShoppingCartComponent,
     OrderListComponent,
     ShoppingCartProductComponent,
+    UserViewComponent,
+    BakerViewComponent,
+    BakerOrderListComponent,
   ],
   imports: [
     BrowserModule,

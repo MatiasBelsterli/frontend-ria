@@ -8,6 +8,7 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { OrderListComponent } from "./components/order-list/order-list.component";
 import { authGuard, noAuthGuard } from './services/auth/auth.guard';
 import { UserRole } from './enums/user-role';
+import { BakerOrderListComponent } from './components/baker-order-list/baker-order-list.component';
 
 const routes: Routes = [{
   path: 'login',
@@ -36,8 +37,14 @@ const routes: Routes = [{
   path: 'orders',
   component: OrderListComponent,
   canActivate: [authGuard],
-  data: { roles: [UserRole.BAKER, UserRole.USER] }
+  data: { roles: [UserRole.ADMIN, UserRole.BAKER, UserRole.USER] }
+}, {
+  path: 'myorders',
+  component: BakerOrderListComponent,
+  canActivate: [authGuard],
+  data: { roles: [UserRole.BAKER] }
 },
+
 ];
 
 @NgModule({

@@ -3,17 +3,23 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError, tap } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
+import { UserRole } from '../../enums/user-role';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  private userType = new BehaviorSubject<string>(localStorage.getItem('role') as UserRole);
   private apiUrl = 'http://localhost:3000/users';
   constructor(private router: Router, private http: HttpClient) { }
 
   get isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
+  }
+
+  get isUserType(): Observable<string> {
+    return this.userType.asObservable();
   }
 
   private hasToken(): boolean {
@@ -33,6 +39,7 @@ export class AuthService {
         localStorage.setItem('token', response.token);
         localStorage.setItem('role', response.role);
         this.loggedIn.next(true);
+        this.userType.next(response.role);
       }),
       catchError(this.handleError)
     );
@@ -42,6 +49,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     this.loggedIn.next(false);
+    this.userType.next("");
     this.router.navigate(['/login']);
   }
 
