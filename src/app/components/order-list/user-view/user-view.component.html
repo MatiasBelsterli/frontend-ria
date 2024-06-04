@@ -1,12 +1,8 @@
 <div class="container">
   <h1 class="title">Order List</h1>
-  <div *ngIf="orderList.length === 0" class="notification is-info">
-    <p>
-      It looks like you haven't placed any orders yet. You can add the products you want to your cart and place an
-      order.
-    </p>
-  </div>
-  <table class="table is-striped is-hoverable is-fullwidth" *ngIf="orderList.length > 0">
+  <section
+    *ngIf="orderList$ | async as orderList; else loaderAndError">
+    <table class="table is-striped is-hoverable is-fullwidth" *ngIf="orderList.length > 0">
     <thead>
       <tr>
         <th>Request Date</th>
@@ -16,44 +12,21 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let order of orderList; let i = index">
-        <tr (click)="toggleOrderDetails(i)">
-          <td>{{ order.requestDate | date:'short' }}</td>
-          <td>{{ order.totalPrice | currency }}</td>
-          <td>{{ order.status }}</td>
-          <td>
-            <button class="button is-danger w-12"
-              (click)="changeOrderStatus(order.id!!, OrderStatus.CANCELLED); $event.stopPropagation()"
-              [disabled]="order.status !== 'WAITING'" style="width: 100px;">
-              {{ order.status === 'CANCELLED' ? 'Cancelled' : 'Cancel' }}
-            </button>
-          </td>
-        </tr>
-        <tr *ngIf="isOrderDetailsVisible(i)">
-          <td colspan="4">
-            <div class="pl-4">
-              <table class="table is-fullwidth">
-                <thead>
-                  <tr>
-                    <th>Product Name</th>
-                    <th>Description</th>
-                    <th>Price per Unit</th>
-                    <th>Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let product of order.products">
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.description }}</td>
-                    <td>{{ product.price | currency }}</td>
-                    <td>{{ product.quantity }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </td>
-        </tr>
+      <ng-container *ngFor="let order of orderList">
+        <app-order [order]="order" (changeOrderStatus)="changeOrderStatus($event)"/>
       </ng-container>
     </tbody>
   </table>
+  </section>
+  <ng-template #loaderAndError>
+    <section *ngIf="hasError; else loader">
+      <p>Something went wrong. Please try again later.</p>
+    </section>
+    <ng-template #loader>
+      <div class="loader-wrapper">
+        <div class="loader is-loading"></div>
+      </div>
+    </ng-template>
+  </ng-template>
+
 </div>
