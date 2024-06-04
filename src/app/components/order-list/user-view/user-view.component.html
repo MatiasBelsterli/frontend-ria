@@ -2,21 +2,17 @@
   <h1 class="title">Order List</h1>
   <section
     *ngIf="orderList$ | async as orderList; else loaderAndError">
-    <table class="table is-striped is-hoverable is-fullwidth" *ngIf="orderList.length > 0">
-    <thead>
-      <tr>
-        <th>Request Date</th>
-        <th>Total Price</th>
-        <th>Status</th>
-        <th>Options</th>
-      </tr>
-    </thead>
-    <tbody>
+    <div class="container box" style="padding-bottom: 0.1rem">
+      <div class="columns is-mobile has-text-weight-bold">
+        <div class="column">Request Date</div>
+        <div class="column">Total Price</div>
+        <div class="column">Status</div>
+        <div class="column">Options</div>
+      </div>
       <ng-container *ngFor="let order of orderList">
-        <app-order [order]="order" (changeOrderStatus)="changeOrderStatus($event)"/>
+        <app-order [order]="order" (changeOrderStatus)="changeOrderStatus($event)" />
       </ng-container>
-    </tbody>
-  </table>
+    </div>
   </section>
   <ng-template #loaderAndError>
     <section *ngIf="hasError; else loader">
