@@ -19,6 +19,7 @@ import { ShoppingCartProductComponent } from './components/shopping-cart-product
 import { UserViewComponent } from './components/order-list/user-view/user-view.component';
 import { BakerViewComponent } from './components/order-list/baker-view/baker-view.component';
 import { BakerOrderListComponent } from './components/baker-order-list/baker-order-list.component';
+import { OrderComponent } from './components/order-list/order/order.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { BakerOrderListComponent } from './components/baker-order-list/baker-ord
     UserViewComponent,
     BakerViewComponent,
     BakerOrderListComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,

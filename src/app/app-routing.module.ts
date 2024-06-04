@@ -39,7 +39,7 @@ const routes: Routes = [{
   canActivate: [authGuard],
   data: { roles: [UserRole.ADMIN, UserRole.BAKER, UserRole.USER] }
 }, {
-  path: 'myorders',
+  path: 'my-orders',
   component: BakerOrderListComponent,
   canActivate: [authGuard],
   data: { roles: [UserRole.BAKER] }

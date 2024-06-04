@@ -1,0 +1,30 @@
+<div class="columns is-mobile has-text-weight-bold mb-5" (click)="toggleOrderDetails()">
+  <div class="column">{{ order.requestDate | date:'short' }}</div>
+  <div class="column">{{ order.totalPrice | currency }}</div>
+  <div class="column">{{ order.status }}</div>
+  <button class="button is-danger w-12"
+          (click)="changeOrderStatusEvent(); $event.stopPropagation()"
+          [disabled]="order.status !== 'WAITING'" style="width: 100px;">
+    {{ order.status === 'CANCELLED' ? 'Cancelled' : 'Cancel' }}
+  </button>
+</div>
+<div *ngIf="visibleOrderDetails">
+  <table class="table is-fullwidth">
+    <thead>
+    <tr>
+      <th>Product Name</th>
+      <th>Description</th>
+      <th>Price per Unit</th>
+      <th>Quantity</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of order.products">
+      <td>{{ product.name }}</td>
+      <td>{{ product.description }}</td>
+      <td>{{ product.price | currency }}</td>
+      <td>{{ product.quantity }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
