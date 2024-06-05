@@ -1,12 +1,14 @@
 <div class="columns is-mobile has-text-weight-bold mb-5" (click)="toggleOrderDetails()">
   <div class="column">{{ order.requestDate | date:'short' }}</div>
-  <div class="column">{{ order.totalPrice | currency }}</div>
-  <div class="column">{{ order.status }}</div>
-  <button class="button is-danger w-12"
-          (click)="changeOrderStatusEvent(); $event.stopPropagation()"
-          [disabled]="order.status !== 'WAITING'" style="width: 100px;">
-    {{ order.status === 'CANCELLED' ? 'Cancelled' : 'Cancel' }}
-  </button>
+  <div class="column has-text-centered">{{ order.totalPrice | currency }}</div>
+  <div class="column has-text-centered">{{ order.status }}</div>
+  <div class="column has-text-centered">
+    <button class="button is-danger w-12"
+            (click)="changeOrderStatusEvent(); $event.stopPropagation()"
+            [disabled]="order.status !== 'WAITING'" style="width: 100px;">
+      {{ order.status === 'CANCELLED' ? 'Cancelled' : 'Cancel' }}
+    </button>
+  </div>
 </div>
 <div *ngIf="visibleOrderDetails">
   <table class="table is-fullwidth">

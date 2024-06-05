@@ -20,6 +20,7 @@ import { UserViewComponent } from './components/order-list/user-view/user-view.c
 import { BakerViewComponent } from './components/order-list/baker-view/baker-view.component';
 import { BakerOrderListComponent } from './components/baker-order-list/baker-order-list.component';
 import { OrderComponent } from './components/order-list/order/order.component';
+import { AdminViewComponent } from "./components/order-list/admin-view/admin-view.component";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { OrderComponent } from './components/order-list/order/order.component';
     BakerViewComponent,
     BakerOrderListComponent,
     OrderComponent,
+    AdminViewComponent,
   ],
   imports: [
     BrowserModule,

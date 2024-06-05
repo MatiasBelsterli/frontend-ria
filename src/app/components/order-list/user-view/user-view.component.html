@@ -5,9 +5,9 @@
     <div class="container box" style="padding-bottom: 0.1rem">
       <div class="columns is-mobile has-text-weight-bold">
         <div class="column">Request Date</div>
-        <div class="column">Total Price</div>
-        <div class="column">Status</div>
-        <div class="column">Options</div>
+        <div class="column has-text-centered">Total Price</div>
+        <div class="column has-text-centered">Status</div>
+        <div class="column has-text-centered">Options</div>
       </div>
       <ng-container *ngFor="let order of orderList">
         <app-order [order]="order" (changeOrderStatus)="changeOrderStatus($event)" />
