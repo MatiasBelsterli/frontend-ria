@@ -16,7 +16,6 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       passwordConfirm: ['', [Validators.required, Validators.minLength(8)]],
-      role: ['', [Validators.required]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(9), Validators.maxLength(9)]],
     }, {
       validator: this.passwordMatchValidator('password', 'passwordConfirm')
@@ -34,14 +33,6 @@ export class RegisterComponent {
         passwordConfirmControl.setErrors(null);
       }
     }
-  }
-
-  onChangeRole(event: any) {
-    const selectRoles = event.target;
-    const options = selectRoles?.querySelectorAll('option');
-    options.forEach((element: HTMLOptionElement) => {
-      element.value === "" ? element.disabled = true : element.disabled = false;
-    });
   }
 
   onSubmit() {
