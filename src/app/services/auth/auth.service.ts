@@ -28,6 +28,7 @@ export class AuthService {
   }
 
   register(user: any): Observable<any> {
+    user.role = UserRole.USER;
     return this.http.post(`${this.apiUrl}/register`, user).pipe(
       catchError(this.handleError)
     );
