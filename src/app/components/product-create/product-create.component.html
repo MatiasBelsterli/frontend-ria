@@ -9,9 +9,9 @@
       <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
 
         <div class="field">
-          <label class="label">Name</label>
+          <label class="label" for="nameProduct">Name</label>
           <div class="control">
-            <input class="input" type="text" placeholder="Name input" formControlName="name">
+            <input id="nameProduct" class="input" type="text" placeholder="Name input" formControlName="name">
           </div>
           <p class="help is-danger"
             *ngIf="(productForm.get('name')?.invalid && productForm.get('name')?.touched) || (formSubmitted && productForm.get('name')?.invalid)">
@@ -20,9 +20,9 @@
         </div>
 
         <div class="field">
-          <label class="label">Price</label>
+          <label class="label" for="priceProduct">Price</label>
           <div class="control">
-            <input class="input" type="text" placeholder="Price Here" formControlName="price">
+            <input id="priceProduct" class="input" type="text" placeholder="Price Here" formControlName="price">
           </div>
           <p class="help is-danger"
             *ngIf="(productForm.get('price')?.invalid && productForm.get('price')?.touched) || (formSubmitted && productForm.get('price')?.invalid)">
@@ -31,27 +31,40 @@
         </div>
 
         <div class="field">
-          <label class="label">Description</label>
+          <label class="label" for="descProduct">Description</label>
           <div class="control">
-            <textarea class="textarea" placeholder="Textarea" formControlName="description"></textarea>
+            <textarea id="descProduct" class="textarea" placeholder="Textarea" formControlName="description"></textarea>
           </div>
           <p class="help is-danger"
             *ngIf="(productForm.get('description')?.invalid && productForm.get('description')?.touched) || (formSubmitted && productForm.get('description')?.invalid)">
             This description is invalid
           </p>
         </div>
-        <!--    DES-COMENTAR CUANDO TENGA GANAS DE EMPEZAR CON LA INSERCION DE UNA IMAGEN
-        <div class="file">
-          <label class="file-label">
-            <input class="file-input" type="image" name="resume" />
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
+
+        <div class="field">
+          <label class="label">Product Image</label>
+          <div class="file">
+            <label class="control file-label">
+              <input class="file-input" type="file" name="image" alt="Add Image to Product" (change)="validImage($event)" />
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label"> Choose a file… </span>
               </span>
-              <span class="file-label"> Choose a file… </span>
-            </span>
-          </label>
-        </div> -->
+            </label>
+          </div>
+          <p class="help is-danger" *ngIf="productForm.get('image')?.errors?.['required'] && formSubmitted">
+            The image is required
+          </p>
+          <p class="help is-danger" *ngIf="productForm.get('image')?.errors?.['invalidFileType']">
+            Invalid file type. Only images are allowed.
+          </p>
+          <p class="help is-danger" *ngIf="productForm.get('image')?.errors?.['invalidFileSize']">
+            File size must be less than 2MB.
+          </p>
+        </div>
+
         <div class="field is-grouped">
           <div class="control">
             <button class="button is-link" [ngClass]="{'is-loading': isLoading}">Create Product</button>

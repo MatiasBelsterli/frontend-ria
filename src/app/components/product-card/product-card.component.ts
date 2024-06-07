@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Product } from '../../models/products/product.model';
 import { CartService } from '../../services/cart/cart.service';
 import { toast } from 'bulma-toast';
@@ -8,11 +8,14 @@ import { toast } from 'bulma-toast';
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss'
 })
-export class ProductCardComponent {
-  constructor(private cartService: CartService) { }
-
+export class ProductCardComponent implements OnInit {
   @Input({ required: true }) product!: Product;
+  constructor(private cartService: CartService) { }
   quantity: number = 0;
+  urlImage: string = 'https://bulma.io/assets/images/placeholders/1280x960.png'
+  ngOnInit() {
+    if (this.product.image !== null) this.urlImage = `data:image/png;base64,${this.product.image}`;
+  }
 
   addToCart() {
     if (this.quantity < 1) {
@@ -24,7 +27,7 @@ export class ProductCardComponent {
       })
       this.quantity = 0
       return
-    };
+    }
     this.cartService.add(this.product, this.quantity).subscribe();
     this.quantity = 0
     toast({
