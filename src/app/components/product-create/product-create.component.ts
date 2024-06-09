@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from '../../services/products/product.service';
+import { fileValidator } from "../../validators/file-validator";
 
 @Component({
   selector: 'app-product-create',
@@ -17,25 +18,39 @@ export class ProductCreateComponent {
 
   constructor(fb: FormBuilder, private productService: ProductService) {
     this.productForm = fb.group({
-      name: ['', Validators.required],
-      price: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      description: ['', Validators.required],
+      name: ['a', Validators.required],
+      price: ['2', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      description: ['b', Validators.required],
+      image: ['', [Validators.required, fileValidator(['image/jpeg', 'image/png'], 2 * 1024 * 1024)]],
     });
+  }
+
+
+  validImage(event: any) {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files?.length) {
+      const file = input.files[0];
+      this.productForm.patchValue({
+        image: file
+      });
+      this.productForm.get('image')!.updateValueAndValidity();
+    }
   }
 
   onSubmit() {
     this.formSubmitted = true;
     this.isLoading = true;
     if (this.productForm.valid) {
-      this.productService.createProduct(this.productForm.value).subscribe((res) => {
-        console.log('Product created:', res);
+      this.productService.createProduct(this.productForm.value).subscribe(() => {
         this.isLoading = false;
+        this.formSubmitted = false;
         this.productName = this.productForm.get('name')!.value;
         document.querySelector('.notification')?.classList.remove('is-hidden');
         this.productForm.reset();
       });
     } else {
-      console.log('Form is invalid');
+      this.isLoading = false;
     }
 
   }

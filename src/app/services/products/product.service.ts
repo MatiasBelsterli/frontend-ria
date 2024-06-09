@@ -21,8 +21,12 @@ export class ProductService {
   }
 
   createProduct(product: Product): Observable<Product> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<Product>(this.apiUrl, product, { headers });
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('price', product.price.toString());
+    formData.append('description', product.description);
+    formData.append('image', product.image);
+    return this.http.post<Product>(this.apiUrl, formData);
   }
 
   updateProduct(id: number, product: Product): Observable<Product> {
