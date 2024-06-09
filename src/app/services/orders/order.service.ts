@@ -28,13 +28,13 @@ export class OrderService {
     return !!localStorage.getItem('token');
   }
 
-  createOrder(products: Product[]): Observable<Order> {
+  createOrder(products: Product[], deliveryDate: Date): Observable<Order> {
     const productCart: { productId: number, quantity: number }[] = products.map(product => ({
       productId: product.id,
       quantity: product.quantity ?? 1
     }));
 
-    return this.http.post<Order>(this.apiUrl, { products: productCart });
+    return this.http.post<Order>(this.apiUrl, { products: productCart , deliveryDate});
   }
 
   getOrdersToBakers() {

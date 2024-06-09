@@ -1,34 +1,36 @@
-<div class="is-flex is-align-items-center is-flex-tablet-direction-column">
-  <div class="is-flex-shrink-0 mr-4">
-    <figure class="image is-96x96">
-      <img src="https://via.placeholder.com/128x128.png?text=Image" [alt]="product.name">
-    </figure>
-  </div>
+<div class="is-flex is-flex-direction-column has-visible-pointer-controls p-2" >
+  <div class="is-flex is-align-items-center is-flex-tablet-direction-column">
+    <div class="is-flex-shrink-0 mr-4">
+      <figure class="image is-96x96">
+        <img src="https://via.placeholder.com/128x128.png?text=Image" [alt]="product.name">
+      </figure>
+    </div>
 
-  <div class="is-flex is-flex-direction-column is-flex-grow-1">
-    <div class="title is-6">{{product.name}}</div>
-    <div class="subtitle">{{product.description}}</div>
-  </div>
+    <div class="is-flex is-flex-direction-column is-flex-grow-1">
+      <div class="title is-6">{{product.name}}</div>
+      <div class="subtitle">{{product.description}}</div>
+    </div>
 
-  <div class="is-flex-shrink-0">
-    <div class="is-flex is-align-items-center">
-      <span>{{product.price | currency}} ea</span>
+    <div class="is-flex-shrink-0">
+      <div class="is-flex is-align-items-center">
+        <span>{{product.price | currency}} ea</span>
 
-      <div class="control ml-3 is-hidden-mobile">
-        <div class="is-flex">
-          <p class="control">
-            <button class="button rounded-left-corners" (click)="decreaseQuantity()">-</button>
-          </p>
-          <p class="control">
-            <input class="input no-rounded is-centered" type="number" style="width: 7ch" [(ngModel)]="quantity" min="1"
-              required readonly />
-          </p>
-          <p class="control">
-            <button class="button rounded-right-corners" (click)="increaseQuantity()">+</button>
-          </p>
+        <div class="control ml-3 is-hidden-mobile">
+          <div class="is-flex">
+            <p class="control">
+              <button class="button rounded-left-corners" (click)="decreaseQuantity()">-</button>
+            </p>
+            <p class="control">
+              <input class="input no-rounded is-centered" type="number" style="width: 7ch" [(ngModel)]="quantity" min="1"
+                required readonly />
+            </p>
+            <p class="control">
+              <button class="button rounded-right-corners" (click)="increaseQuantity()">+</button>
+            </p>
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
 </div>

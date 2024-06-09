@@ -9,7 +9,7 @@ import { Product } from '../../models/products/product.model';
 export class ShoppingCartProductComponent implements OnInit{
   @Input({ required: true }) product!: Product;
   @Input({ required: true }) initialQuantity!: number;
-  @Output() newerQuantity = new EventEmitter<{ id: number, quantity: number }>;
+  @Output() newerQuantity = new EventEmitter<{ id: number, quantity: number | null }>;
 
   quantity: number = 0;
 
@@ -20,7 +20,7 @@ export class ShoppingCartProductComponent implements OnInit{
   emitNewQuantity() {
     if (this.quantity < 0) this.quantity = 0;
     if (this.initialQuantity === this.quantity) {
-      this.newerQuantity.emit({ id: this.product.id, quantity: -1 })
+      this.newerQuantity.emit({ id: this.product.id, quantity: null })
     } else {
       this.newerQuantity.emit({ id: this.product.id, quantity: this.quantity });
     }

@@ -32,4 +32,27 @@ export class LoginComponent {
       }
     );
   }
+
+
+  // TODO delete
+  log(credentials: any): void {
+    this.authService.login(credentials).subscribe(
+      response => {
+        localStorage.setItem('token', response.token);
+        this.router.navigate(['/']);
+      },
+      error => {
+        this.errorMessage = 'Invalid email or password';
+      }
+    );
+  }
+  logBaker() {
+    this.log({email: 'baker@example.com', password: 'baker123'})
+  }
+  logUser1() {
+    this.log({email: 'user@example.com', password: 'user123'})
+  }
+  logUser2() {
+    this.log({email: 'user2@example.com', password: 'user123'})
+  }
 }

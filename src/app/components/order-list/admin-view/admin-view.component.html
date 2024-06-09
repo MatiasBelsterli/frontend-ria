@@ -5,12 +5,14 @@
     <div class="container box" style="margin-bottom: .1rem">
       <div class="columns is-mobile has-text-weight-bold">
         <div class="column">Request Date</div>
+        <div class="column">Delivery Date</div>
         <div class="column">Total Price</div>
         <div class="column">Status</div>
       </div>
       <ng-container *ngFor="let order of orderList; let i = index">
         <div class="columns is-mobile has-text-weight-bold mb-5 border-bottom" (click)="toggleOrderDetails(i)">
           <div class="column">{{ order.requestDate | date:'short' }}</div>
+          <div class="column">{{ order.deliveryDate | date:'short' }}</div>
           <div class="column">{{ order.totalPrice | currency }}</div>
           <div class="column">{{ order.status }}</div>
 
