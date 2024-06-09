@@ -18,14 +18,6 @@ export class AdminViewComponent implements OnInit {
 
   ngOnInit() {
     this.loadOrders();
-    this.orderList$.subscribe({
-      next: value => {
-        console.log('value', value)
-      },
-      error: error => {
-        console.error(error)
-      }
-    })
   }
 
   loadOrders() {

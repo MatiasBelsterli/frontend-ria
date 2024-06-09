@@ -21,6 +21,7 @@ import { BakerViewComponent } from './components/order-list/baker-view/baker-vie
 import { BakerOrderListComponent } from './components/baker-order-list/baker-order-list.component';
 import { OrderComponent } from './components/order-list/order/order.component';
 import { AdminViewComponent } from "./components/order-list/admin-view/admin-view.component";
+import { FlatpickrModule } from 'angularx-flatpickr'
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { AdminViewComponent } from "./components/order-list/admin-view/admin-vie
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    FlatpickrModule.forRoot(),
   ],
   providers: [
     provideClientHydration(),

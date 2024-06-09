@@ -1,17 +1,59 @@
-<div class="container" id="cart" data-example>
-  <h1 class="title is-4 mb-2">Cart</h1>
-
-  <div class="is-flex is-flex-direction-column has-visible-pointer-controls p-2"
-    *ngFor="let cartProduct of cartProducts; let i = index">
-    <app-shopping-cart-product [product]="cartProduct" [initialQuantity]="cartProduct.quantity!!"
-      (newerQuantity)="updateQuantity($event)" />
-  </div>
-  <button *ngIf="cartProducts.length > 0" [disabled]="requireUpdate" class="button title is-4 ml-2 mt-6"
-    (click)="orderProducts()">Order</button>
-  <button *ngIf="cartProducts.length > 0" [disabled]="!requireUpdate" [ngClass]="{'has-warning-border': requireUpdate}"
-    class="button title is-4 ml-2 mt-6" (click)="updateQuantityCart()">Update
-    Quantity</button>
-  <div *ngIf="cartProducts.length === 0" class="is-flex is-flex-direction-column has-visible-pointer-controls p-2">
-    <h2 class="title is-4">Your cart is empty</h2>
-  </div>
+  <div class="container mt-6" id="cart" data-example>
+  <h1 class="title is-4 mb-2">Your Cart</h1>
+  <ng-container *ngIf="cartProducts$ | async as cartProducts; else loaderAndError">
+    <ng-container *ngIf="cartProducts.length > 0">
+      <div class="columns">
+        <div class="column is-two-thirds">
+          <app-shopping-cart-product *ngFor="let cartProduct of cartProducts;" [product]="cartProduct" [initialQuantity]="cartProduct.quantity!!" (newerQuantity)="updateQuantity($event)" />
+        </div>
+        <div class="column is-one-third">
+          <h2 class="title is-5">Cart totals</h2>
+          <div class="summary-item mb-4 is-flex is-flex-direction-column">
+            <span>Select delivery date</span>
+            <div class="control mt-2">
+              <input
+                type="text"
+                class="input"
+                mwlFlatpickr
+                [(ngModel)]="deliveryDate"
+                altFormat="F j, Y" dateFormat="m-d-Y"
+                [convertModelValue]="true"
+                minDate="today"
+              >
+            </div>
+          </div>
+          <div class="summary-item">
+            <span>Order total</span>
+            <span class="price">${{totalPrice}}</span>
+          </div>
+          <div class="summary-item">
+            <div class="tooltip">
+              <button
+                [disabled]="requireUpdate || !deliveryDate"
+                class="button is-primary is-4 ml-2 mt-6"
+                (click)="orderProducts()">Order</button>
+              <span class="tooltip-text" *ngIf="!deliveryDate">Please select a delivery date.</span>
+            </div>
+            <button
+              [disabled]="!requireUpdate"
+              [ngClass]="{'has-warning-border': requireUpdate}"
+              class="button ml-2 mt-6" (click)="updateQuantityCart()">Update Quantity</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <div *ngIf="cartProducts.length === 0" class="is-flex is-flex-direction-column has-visible-pointer-controls p-2">
+      <h2 class="title is-4">Your cart is empty</h2>
+    </div>
+  </ng-container>
+  <ng-template #loaderAndError>
+    <section *ngIf="hasError; else loader">
+      <p>Something went wrong. Please try again later.</p>
+    </section>
+    <ng-template #loader>
+      <div class="loader-wrapper">
+        <div class="loader is-loading"></div>
+      </div>
+    </ng-template>
+  </ng-template>
 </div>

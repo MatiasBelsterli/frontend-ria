@@ -8,4 +8,5 @@ export interface Order {
   status: OrderStatus;
   requesterId: number;
   products: Product[];
+  deliveryDate: Date;
 }

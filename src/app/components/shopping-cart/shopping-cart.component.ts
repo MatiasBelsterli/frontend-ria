@@ -3,6 +3,7 @@ import { CartService } from '../../services/cart/cart.service';
 import { Product } from '../../models/products/product.model';
 import { OrderService } from '../../services/orders/order.service';
 import { toast } from 'bulma-toast';
+import {catchError, Observable} from "rxjs";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -10,38 +11,39 @@ import { toast } from 'bulma-toast';
   styleUrl: './shopping-cart.component.scss'
 })
 export class ShoppingCartComponent {
-  cartProducts: Product[] = [];
+  cartProducts$!: Observable<Product[]>;
   requireUpdate: boolean = false;
   updateValues: { id: number, quantity: number }[] = [];
+  hasError: boolean = false;
+  deliveryDate: Date | null = null
+  totalPrice: number = 0
 
   constructor(private cartService: CartService, private orderService: OrderService) {
-    this.cartService.getCart().subscribe(cart => {
-      this.cartProducts = cart;
-      console.log('Cart loaded:', this.cartProducts[0]);
-    }, error => {
-      console.error('Error loading cart', error);
-    });
+    this.loadCart()
   }
+
+
 
   loadCart() {
-    this.cartService.getCart().subscribe(cart => {
-      this.cartProducts = cart;
-      console.log('Cart loaded:', this.cartProducts);
-    }, error => {
-      console.error('Error loading cart', error);
+    this.cartProducts$ = this.cartService.getCart().pipe(catchError(err => {
+      console.error('Error getting products', err);
+      this.hasError = true;
+      return [];
+    }));
+    this.cartProducts$.subscribe(products => {
+      this.totalPrice = products.reduce((sum, product) => sum + product.price * (product.quantity ?? 0), 0);
     });
   }
 
-  updateQuantity({ id, quantity }: { id: number, quantity: number }) {
+  updateQuantity({ id, quantity }: { id: number, quantity: number | null }) {
     const findValue = this.updateValues.find((v) => v.id === id);
     if (findValue) {
-      findValue.quantity = quantity;
-      if (quantity === -1) this.updateValues = this.updateValues.filter((v) => v.id !== id);
+      if (quantity !== null ) findValue.quantity = quantity;
+      if (quantity === null) this.updateValues = this.updateValues.filter((v) => v.id !== id);
     } else {
-      this.updateValues.push({ id, quantity });
+      if (quantity !== null) this.updateValues.push({ id, quantity });
     }
-    this.requireUpdate = true;
-    if (this.updateValues.length === 0) this.requireUpdate = false;
+    this.requireUpdate = this.updateValues.length !== 0;
   }
 
   updateQuantityCart() {
@@ -54,22 +56,34 @@ export class ShoppingCartComponent {
   }
 
   orderProducts() {
-    const productCart = this.cartProducts;
-    this.orderService.createOrder(productCart).subscribe({
-      next: (order) => {
-        this.cartService.clearCart().subscribe();
-        this.cartProducts = [];
-        toast({
-          message: 'Order created successfully!',
-          type: 'is-success',
-          dismissible: true,
-          position: 'top-center',
-          duration: 4000,
-        });
-      },
-      error: (error) => {
-        console.error('Error creating order', error.message);
-      }
+    if (this.deliveryDate === null) {
+      return toast({
+        message: 'Please select a delivery date.',
+        type: "is-danger",
+        dismissible: true,
+        position: 'top-center',
+        duration: 4000,
+      });
+    }
+    const dateToSend: Date = this.deliveryDate
+    this.cartProducts$.subscribe((productCart) => {
+      this.orderService.createOrder(productCart, dateToSend).subscribe({
+        next: (order) => {
+          this.cartService.clearCart().subscribe(() => {
+            toast({
+              message: 'Order created successfully!',
+              type: 'is-success',
+              dismissible: true,
+              position: 'top-center',
+              duration: 4000,
+            });
+          });
+        },
+        error: (error) => {
+          console.error('Error creating order', error.message);
+        }
+      });
     });
   }
+
 }
