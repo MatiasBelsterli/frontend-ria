@@ -1,10 +1,10 @@
 <div class="container">
   <div class="notification is-primary is-hidden">
     <button class="delete" (click)="deleteNotification($event)"></button>
-    Product <span class="title is-6">{{productName}}</span> created successfully
+    Product <span class="title is-6">{{productName}}</span> {{isEditMode ? 'updated' : 'created'}} successfully
   </div>
   <div class="column is-4 is-offset-4">
-    <h2 class="title">Create New Product</h2>
+    <h2 class="title">{{isEditMode ? 'Edit' : 'Create'}} Product</h2>
     <div class="box">
       <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
 
@@ -14,7 +14,7 @@
             <input id="nameProduct" class="input" type="text" placeholder="Name input" formControlName="name">
           </div>
           <p class="help is-danger"
-            *ngIf="(productForm.get('name')?.invalid && productForm.get('name')?.touched) || (formSubmitted && productForm.get('name')?.invalid)">
+             *ngIf="(productForm.get('name')?.invalid && productForm.get('name')?.touched) || (formSubmitted && productForm.get('name')?.invalid)">
             This name is invalid
           </p>
         </div>
@@ -25,7 +25,7 @@
             <input id="priceProduct" class="input" type="text" placeholder="Price Here" formControlName="price">
           </div>
           <p class="help is-danger"
-            *ngIf="(productForm.get('price')?.invalid && productForm.get('price')?.touched) || (formSubmitted && productForm.get('price')?.invalid)">
+             *ngIf="(productForm.get('price')?.invalid && productForm.get('price')?.touched) || (formSubmitted && productForm.get('price')?.invalid)">
             This price is invalid
           </p>
         </div>
@@ -36,7 +36,7 @@
             <textarea id="descProduct" class="textarea" placeholder="Textarea" formControlName="description"></textarea>
           </div>
           <p class="help is-danger"
-            *ngIf="(productForm.get('description')?.invalid && productForm.get('description')?.touched) || (formSubmitted && productForm.get('description')?.invalid)">
+             *ngIf="(productForm.get('description')?.invalid && productForm.get('description')?.touched) || (formSubmitted && productForm.get('description')?.invalid)">
             This description is invalid
           </p>
         </div>
@@ -67,7 +67,7 @@
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link" [ngClass]="{'is-loading': isLoading}">Create Product</button>
+            <button class="button is-link" [ngClass]="{'is-loading': isLoading}">{{isEditMode ? 'Update' : 'Create'}} Product</button>
           </div>
         </div>
       </form>

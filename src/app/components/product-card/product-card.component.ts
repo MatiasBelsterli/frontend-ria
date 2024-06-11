@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Product } from '../../models/products/product.model';
 import { CartService } from '../../services/cart/cart.service';
 import { toast } from 'bulma-toast';
+import {UserRole} from "../../enums/user-role";
 
 @Component({
   selector: 'app-product-card',
@@ -10,11 +11,18 @@ import { toast } from 'bulma-toast';
 })
 export class ProductCardComponent implements OnInit {
   @Input({ required: true }) product!: Product;
-  constructor(private cartService: CartService) { }
+  @Input() userType!: String;
+  @Output() deleted = new EventEmitter<number>();
   quantity: number = 0;
   urlImage: string = 'https://bulma.io/assets/images/placeholders/1280x960.png'
+
+  constructor(private cartService: CartService) { }
   ngOnInit() {
     if (this.product.image !== null) this.urlImage = `data:image/png;base64,${this.product.image}`;
+  }
+
+  deleteProduct() {
+    this.deleted.emit(this.product.id)
   }
 
   addToCart() {
@@ -46,4 +54,6 @@ export class ProductCardComponent implements OnInit {
   decreaseQuantity() {
     if (this.quantity > 0) this.quantity--;
   }
+
+  protected readonly UserRole = UserRole;
 }
