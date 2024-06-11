@@ -24,6 +24,11 @@ const routes: Routes = [{
   canActivate: [authGuard],
   data: { roles: [UserRole.ADMIN, UserRole.BAKER, UserRole.USER] }
 }, {
+  path: 'products/edit/:id',
+  component: ProductCreateComponent,
+  canActivate: [authGuard],
+  data: { roles: [UserRole.ADMIN] }
+}, {
   path: 'products/new',
   component: ProductCreateComponent,
   canActivate: [authGuard],
@@ -32,7 +37,7 @@ const routes: Routes = [{
   path: 'shopping-cart',
   component: ShoppingCartComponent,
   canActivate: [authGuard],
-  data: { roles: [UserRole.ADMIN, UserRole.BAKER, UserRole.USER] }
+  data: { roles: [UserRole.USER] }
 }, {
   path: 'orders',
   component: OrderListComponent,

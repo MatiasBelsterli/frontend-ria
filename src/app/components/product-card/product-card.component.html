@@ -10,9 +10,26 @@
         <p class="title is-4">{{ product.name }}</p>
         <p class="subtitle is-6">{{ product.price | currency }}</p>
       </div>
+      <div *ngIf="userType === UserRole.ADMIN" class="media-right">
+        <div class="dropdown is-right is-hoverable">
+          <div class="dropdown-trigger">
+            <button class="hamburger-button" aria-haspopup="true" aria-controls="dropdown-menu">
+              <span class="icon">
+                <i class="fas fa-bars"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <a class="dropdown-item" [routerLink]="['/', 'products', 'edit', product.id]" >Edit</a>
+              <a class="dropdown-item has-text-danger	" (click)="deleteProduct()">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="grid-container">
+    <div class="grid-container" *ngIf="userType === UserRole.USER">
       <div class="is-flex">
         <p class="control">
           <button class="button rounded-left-corners" (click)="decreaseQuantity()">-</button>

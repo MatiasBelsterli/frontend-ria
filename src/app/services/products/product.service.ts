@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import {Observable} from 'rxjs';
 import { Product } from '../../models/products/product.model';
 
 @Injectable({
@@ -30,8 +30,12 @@ export class ProductService {
   }
 
   updateProduct(id: number, product: Product): Observable<Product> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, product, { headers });
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('price', product.price.toString());
+    formData.append('description', product.description);
+    formData.append('image', product.image); // If there is no image, '' is sent
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, formData);
   }
 
   deleteProduct(id: number): Observable<Product> {
