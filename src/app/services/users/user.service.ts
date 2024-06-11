@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import {User} from "../../models/users/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,12 @@ export class UserService {
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   changePassword(data: any): Observable<any> {

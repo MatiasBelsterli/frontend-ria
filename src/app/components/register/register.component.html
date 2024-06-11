@@ -5,6 +5,32 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
         <div class="field">
+          <label class="label">First Name</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="First Name" formControlName="firstName">
+            <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+          <p class="help is-danger" *ngIf="((registerForm.get('firstName')?.touched || formSubmitted) && registerForm.get('firstName')?.hasError('required'))">
+            This name is required
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="label">Last Name</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="Last Name" formControlName="lastName">
+            <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+          <p class="help is-danger" *ngIf="((registerForm.get('lastName')?.touched || formSubmitted) && registerForm.get('lastName')?.hasError('required'))">
+            This name is required
+          </p>
+        </div>
+
+        <div class="field">
           <label class="label">Email</label>
           <div class="control has-icons-left has-icons-right">
             <input class="input" type="email" placeholder="Email input" formControlName="email">
@@ -13,7 +39,7 @@
             </span>
           </div>
           <p class="help is-danger"
-            *ngIf="((registerForm.get('email')?.touched || formSubmitted) && registerForm.get('email')?.hasError('required'))">
+             *ngIf="((registerForm.get('email')?.touched || formSubmitted) && registerForm.get('email')?.hasError('required'))">
             This email is required
           </p>
           <p class="help is-danger" *ngIf="(registerForm.get('email')?.hasError('email'))">
@@ -30,7 +56,7 @@
             </span>
           </div>
           <p class="help is-danger"
-            *ngIf="((registerForm.get('password')?.touched || formSubmitted) && registerForm.get('password')?.hasError('required'))">
+             *ngIf="((registerForm.get('password')?.touched || formSubmitted) && registerForm.get('password')?.hasError('required'))">
             This password is required
           </p>
           <p class="help is-danger" *ngIf="(registerForm.get('password')?.hasError('minlength'))">
@@ -55,11 +81,11 @@
           <div class="control has-icons-left has-icons-right">
             <input class="input" type="tel" placeholder="Phone input" formControlName="phone">
             <span class="icon is-small is-left">
-              <i class="fas fa-envelope"></i>
+              <i class="fas fa-phone"></i>
             </span>
           </div>
           <p class="help is-danger"
-            *ngIf="((registerForm.get('phone')?.touched || formSubmitted) && registerForm.get('phone')?.hasError('required'))">
+             *ngIf="((registerForm.get('phone')?.touched || formSubmitted) && registerForm.get('phone')?.hasError('required'))">
             This phone is required
           </p>
           <p class="help is-danger" *ngIf="(registerForm.get('phone')?.hasError('minlength'))">
@@ -68,6 +94,35 @@
           <p class="help is-danger" *ngIf="(registerForm.get('phone')?.hasError('maxlength'))">
             The phone must be at most 9 characters
           </p>
+        </div>
+
+        <div class="field">
+          <label class="label">Profile Picture</label>
+          <div class="file has-text-centered">
+            <label class="control file-label">
+              <input class="file-input" type="file" name="image" (change)="validImage($event)" />
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  {{ imagePreview ? 'Change image' : 'Choose a file…' }}
+                </span>
+              </span>
+            </label>
+          </div>
+          <p class="help is-danger" *ngIf="registerForm.get('image')?.errors?.['required'] && formSubmitted">
+            The image is required
+          </p>
+          <p class="help is-danger" *ngIf="registerForm.get('image')?.errors?.['invalidFileType']">
+            Invalid file type. Only images are allowed.
+          </p>
+          <p class="help is-danger" *ngIf="registerForm.get('image')?.errors?.['invalidFileSize']">
+            File size must be less than 2MB.
+          </p>
+          <div *ngIf="imagePreview" class="image-preview">
+            <img [src]="imagePreview" alt="Image Preview" />
+          </div>
         </div>
 
         <div class="field is-grouped">

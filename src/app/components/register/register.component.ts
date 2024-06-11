@@ -1,22 +1,27 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from "../../services/auth/auth.service";
+import { AuthService } from "../../services/auth/auth-service/auth.service";
+import { fileValidator } from "../../validators/file-validator";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   registerForm: FormGroup;
   formSubmitted = false;
+  imagePreview: string | ArrayBuffer | null = null;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.registerForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       passwordConfirm: ['', [Validators.required, Validators.minLength(8)]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(9), Validators.maxLength(9)]],
+      image: ['', fileValidator(['image/jpeg', 'image/png'], 2 * 1024 * 1024)]
     }, {
       validator: this.passwordMatchValidator('password', 'passwordConfirm')
     });
@@ -35,11 +40,30 @@ export class RegisterComponent {
     }
   }
 
+  validImage(event: any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      const file = input.files[0];
+      this.registerForm.patchValue({ image: file });
+      this.registerForm.get('image')!.updateValueAndValidity();
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   onSubmit() {
     this.formSubmitted = true;
     if (this.registerForm.valid) {
-      console.log('Form is valid');
-      this.authService.register(this.registerForm.value).subscribe({
+      const formData = new FormData();
+      Object.keys(this.registerForm.controls).forEach(key => {
+        formData.append(key, this.registerForm.get(key)?.value);
+      });
+
+      this.authService.register(formData).subscribe({
         next: response => {
           console.log('User registered successfully');
         },

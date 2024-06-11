@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="column is-4 is-offset-4">
+    <h2 class="title has-text-centered">Profile</h2>
+    <div class="box">
+      <div class="is-flex is-justify-content-center is-align-items-center">
+        <figure class="image is-128x128">
+          <img class="is-rounded" [src]="user?.image ? 'data:image/jpeg;base64,' + user?.image : 'https://bulma.io/assets/images/placeholders/128x128.png'" />
+        </figure>
+      </div>
+      <h6 class="title is-6 has-text-centered mt-5">Hello {{ user?.name }} {{ user?.lastName }}!</h6>
+      <div class="box no-shadow">
+        <h6 class="title is-6">Contact Information</h6>
+        <div>
+          <h6 class="subtitle is-6">Email: {{ user?.email }}</h6>
+          <h6 class="subtitle is-6">Phone Number: {{ user?.phone }}</h6>
+        </div>
+      </div>
+    </div>
+    <app-user-view></app-user-view>
+  </div>
+</div>
