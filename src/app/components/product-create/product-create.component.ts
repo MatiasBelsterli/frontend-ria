@@ -52,7 +52,7 @@ export class ProductCreateComponent implements OnInit {
         name: product.name,
         price: product.price,
         description: product.description,
-        // No cargamos la imagen, ya que no podemos previsualizarla
+        // We do not load the image, since we cannot preview it
       });
     });
   }
