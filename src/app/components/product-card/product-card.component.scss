@@ -1,11 +1,9 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-content: space-between;
+.flex-container {
+  display: flex;
   gap: 10px;
 }
 
-.grid-container input {
+.flex-container input {
   text-align: center;
 }
 
