@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { ProductService } from '../../services/products/product.service';
 import { Observable, catchError } from 'rxjs';
 import { Product } from '../../models/products/product.model';
-import {AuthService} from "../../services/auth/auth-service/auth.service";
+import { AuthService } from "../../services/auth/auth-service/auth.service";
 import { UserRole } from "../../enums/user-role";
 
 @Component({

@@ -20,7 +20,7 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       passwordConfirm: ['', [Validators.required, Validators.minLength(8)]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(9), Validators.maxLength(9)]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(9), Validators.maxLength(11)]],
       image: ['', fileValidator(['image/jpeg', 'image/png'], 2 * 1024 * 1024)]
     }, {
       validator: this.passwordMatchValidator('password', 'passwordConfirm')
@@ -49,7 +49,24 @@ export class RegisterComponent {
 
       const reader = new FileReader();
       reader.onload = () => {
-        this.imagePreview = reader.result;
+        const img = new Image();
+        img.src = reader.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            const size = 128;
+            canvas.width = size;
+            canvas.height = size;
+            ctx.drawImage(img, 0, 0, size, size);
+            this.imagePreview = canvas.toDataURL(file.type);
+            canvas.toBlob(blob => {
+              const croppedFile = new File([blob!], file.name, { type: file.type });
+              this.registerForm.patchValue({ image: croppedFile });
+              this.registerForm.get('image')!.updateValueAndValidity();
+            }, file.type);
+          }
+        };
       };
       reader.readAsDataURL(file);
     }

@@ -1,0 +1,19 @@
+.image-preview {
+  width: 100%;
+  height: 150px;
+  margin-top: 10px;
+  display: flex;
+}
+
+.image-preview img {
+  width: 150px;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file.has-text-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

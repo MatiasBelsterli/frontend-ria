@@ -9,7 +9,7 @@ import { OrderListComponent } from "./components/order-list/order-list.component
 import { authGuard, noAuthGuard } from './services/auth/auth-guard/auth.guard';
 import { UserRole } from './enums/user-role';
 import { BakerOrderListComponent } from './components/baker-order-list/baker-order-list.component';
-import {UserProfileComponent} from "./components/user-profile/user-profile.component";
+import { UserProfileComponent } from "./components/user-profile/user-profile.component";
 
 const routes: Routes = [{
   path: 'login',

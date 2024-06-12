@@ -13,7 +13,7 @@
             </span>
           </div>
           <p class="help is-danger" *ngIf="((registerForm.get('firstName')?.touched || formSubmitted) && registerForm.get('firstName')?.hasError('required'))">
-            This name is required
+            First name is required
           </p>
         </div>
 
@@ -26,7 +26,7 @@
             </span>
           </div>
           <p class="help is-danger" *ngIf="((registerForm.get('lastName')?.touched || formSubmitted) && registerForm.get('lastName')?.hasError('required'))">
-            This name is required
+            Last name is required
           </p>
         </div>
 
@@ -40,10 +40,10 @@
           </div>
           <p class="help is-danger"
              *ngIf="((registerForm.get('email')?.touched || formSubmitted) && registerForm.get('email')?.hasError('required'))">
-            This email is required
+            Email is required
           </p>
           <p class="help is-danger" *ngIf="(registerForm.get('email')?.hasError('email'))">
-            This email is invalid
+            Email entered is invalid
           </p>
         </div>
 
@@ -57,10 +57,10 @@
           </div>
           <p class="help is-danger"
              *ngIf="((registerForm.get('password')?.touched || formSubmitted) && registerForm.get('password')?.hasError('required'))">
-            This password is required
+            Password is required
           </p>
           <p class="help is-danger" *ngIf="(registerForm.get('password')?.hasError('minlength'))">
-            The password must be at least 8 characters
+            Password must be at least 8 characters
           </p>
         </div>
         <div class="field">
@@ -72,7 +72,7 @@
             </span>
           </div>
           <p class="help is-danger" *ngIf="(registerForm.get('passwordConfirm')?.hasError('passwordMismatch'))">
-            The password confirm is invalid
+            Passwords do not match
           </p>
         </div>
 
@@ -86,13 +86,13 @@
           </div>
           <p class="help is-danger"
              *ngIf="((registerForm.get('phone')?.touched || formSubmitted) && registerForm.get('phone')?.hasError('required'))">
-            This phone is required
+            Phone number is required
           </p>
           <p class="help is-danger" *ngIf="(registerForm.get('phone')?.hasError('minlength'))">
-            The phone must be at least 9 characters
+            Phone number must be at least 9 characters
           </p>
           <p class="help is-danger" *ngIf="(registerForm.get('phone')?.hasError('maxlength'))">
-            The phone must be at most 9 characters
+            Phone number must be at most 11 characters
           </p>
         </div>
 
@@ -106,21 +106,18 @@
                   <i class="fas fa-upload"></i>
                 </span>
                 <span class="file-label">
-                  {{ imagePreview ? 'Change image' : 'Choose a file…' }}
+                  {{ imagePreview ? 'Change image' : 'Choose an image…' }}
                 </span>
               </span>
             </label>
           </div>
-          <p class="help is-danger" *ngIf="registerForm.get('image')?.errors?.['required'] && formSubmitted">
-            The image is required
-          </p>
           <p class="help is-danger" *ngIf="registerForm.get('image')?.errors?.['invalidFileType']">
             Invalid file type. Only images are allowed.
           </p>
           <p class="help is-danger" *ngIf="registerForm.get('image')?.errors?.['invalidFileSize']">
             File size must be less than 2MB.
           </p>
-          <div *ngIf="imagePreview" class="image-preview">
+          <div *ngIf="imagePreview" class="image-preview is-justify-content-center">
             <img [src]="imagePreview" alt="Image Preview" />
           </div>
         </div>

@@ -1,6 +1,6 @@
 <section
     *ngIf="orderList$ | async as orderList; else loaderAndError">
-    <div class="container box" style="padding-bottom: 0.1rem">
+    <div class="container box is-scrollable" style="padding-bottom: 0.1rem">
       <div class="columns is-mobile has-text-weight-bold">
         <div class="column">Request Date</div>
         <div class="column">Delivery Date</div>
