@@ -1,32 +1,39 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" (click)="toggleNavbar()" [ngClass]="{'is-active': isNavbarActive}">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu" [ngClass]="{'is-active': isNavbarActive}">
+    <div class="navbar-start has-text-right-touch">
       <a class="navbar-item" routerLink="/">Home</a>
-      <a *ngIf="isLogged" class="navbar-item" routerLink="/products">Products</a>
-      <a *ngIf="isLogged" class="navbar-item" routerLink="/orders">
-        {{userType === UserRole.BAKER ? 'Orders' : 'My Orders'}}</a>
-      <a *ngIf="isLogged && userType === UserRole.BAKER" class="navbar-item" routerLink="/my-orders">My Orders</a>
+      <ng-container *ngIf="isLogged">
+        <a class="navbar-item" routerLink="/products">Products</a>
+        <a class="navbar-item" routerLink="/orders">
+          {{userType === UserRole.BAKER ? 'Orders' : 'My Orders'}}
+        </a>
+        <a *ngIf="userType === UserRole.BAKER" class="navbar-item" routerLink="/my-orders">My Orders</a>
+      </ng-container>
     </div>
 
-    <div class="navbar-end">
+    <div class="navbar-end has-text-right-mobile">
       <div class="navbar-item">
-        <div *ngIf="!isLogged" class="buttons">
+        <div *ngIf="!isLogged" class="buttons is-flex-mobile">
           <a class="button is-primary" routerLink="/register"><strong>Sign up</strong></a>
           <a class="button is-light" routerLink="/login">Login</a>
-          <button (click)="toggleTheme()" class="button">
-            <span class="icon">
-              <i class="fas" [ngClass]="getCurrentTheme() === 'light' ? 'fa-moon' : 'fa-sun'"></i>
-            </span>
-          </button>
         </div>
-        <div *ngIf="isLogged" class="buttons">
+        <div *ngIf="isLogged" class="buttons is-flex-mobile">
           <a class="button is-light" (click)="logout()">Logout</a>
           <button (click)="toggleTheme()" class="button">
             <span class="icon">
               <i class="fas" [ngClass]="getCurrentTheme() === 'light' ? 'fa-moon' : 'fa-sun'"></i>
             </span>
           </button>
-          <a *ngIf="userType === UserRole.USER" routerLink="/shopping-cart">
+          <a *ngIf="userType === UserRole.USER" class="button" routerLink="/shopping-cart">
             <span class="icon">
               <i class="fa-solid fa-cart-shopping"></i>
             </span>
