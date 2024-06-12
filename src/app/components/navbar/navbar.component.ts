@@ -11,10 +11,13 @@ export class NavbarComponent implements OnInit {
   public isLogged: boolean = false;
   private theme: string = 'dark';
   public userType: string = '';
+  isNavbarActive: boolean = false;
 
   constructor(private authService: AuthService) {
   }
-
+  toggleNavbar() {
+    this.isNavbarActive = !this.isNavbarActive;
+  }
   ngOnInit() {
     this.authService.checkTokenValidity();
     this.authService.isLoggedIn.subscribe(loggedIn => {
