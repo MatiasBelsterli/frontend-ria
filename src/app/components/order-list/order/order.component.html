@@ -4,7 +4,7 @@
   <div class="column has-text-centered">{{ order.totalPrice | currency }}</div>
   <div class="column has-text-centered">{{ order.status }}</div>
   <div class="column has-text-centered">
-    <button class="button is-danger w-12"
+    <button class="button is-danger"
             (click)="changeOrderStatusEvent(); $event.stopPropagation()"
             [disabled]="order.status !== 'WAITING'" style="width: 100px;">
       {{ order.status === 'CANCELLED' ? 'Cancelled' : 'Cancel' }}

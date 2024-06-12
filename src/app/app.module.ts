@@ -22,6 +22,7 @@ import { BakerOrderListComponent } from './components/baker-order-list/baker-ord
 import { OrderComponent } from './components/order-list/order/order.component';
 import { AdminViewComponent } from "./components/order-list/admin-view/admin-view.component";
 import { FlatpickrModule } from 'angularx-flatpickr'
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { FlatpickrModule } from 'angularx-flatpickr'
     BakerOrderListComponent,
     OrderComponent,
     AdminViewComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

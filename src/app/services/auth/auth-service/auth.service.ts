@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError, tap } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
-import { UserRole } from '../../enums/user-role';
+import { UserRole } from '../../../enums/user-role';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   register(user: any): Observable<any> {
-    user.role = UserRole.USER;
+    user.append('role', UserRole.USER);
     return this.http.post(`${this.apiUrl}/register`, user).pipe(
       catchError(this.handleError)
     );
@@ -39,6 +39,7 @@ export class AuthService {
       tap((response: any) => {
         localStorage.setItem('token', response.token);
         localStorage.setItem('role', response.role);
+        localStorage.setItem('userId', response.userId);
         this.loggedIn.next(true);
         this.userType.next(response.role);
       }),

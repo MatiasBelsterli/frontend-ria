@@ -1,5 +1,3 @@
-<div class="container">
-  <h1 class="title">All Order List</h1>
   <section
     *ngIf="orderList$ | async as orderList; else loaderAndError">
     <div class="container box" style="margin-bottom: .1rem">
@@ -52,4 +50,3 @@
     </ng-template>
   </ng-template>
 
-</div>
