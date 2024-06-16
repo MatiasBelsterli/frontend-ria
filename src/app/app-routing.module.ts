@@ -6,9 +6,10 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { ProductCreateComponent } from './components/product-create/product-create.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { OrderListComponent } from "./components/order-list/order-list.component";
-import { authGuard, noAuthGuard } from './services/auth/auth.guard';
+import { authGuard, noAuthGuard } from './services/auth/auth-guard/auth.guard';
 import { UserRole } from './enums/user-role';
 import { BakerOrderListComponent } from './components/baker-order-list/baker-order-list.component';
+import { UserProfileComponent } from "./components/user-profile/user-profile.component";
 
 const routes: Routes = [{
   path: 'login',
@@ -18,6 +19,11 @@ const routes: Routes = [{
   path: 'register',
   component: RegisterComponent,
   canActivate: [noAuthGuard]
+}, {
+  path: 'profile',
+  component: UserProfileComponent,
+  canActivate: [authGuard],
+  data: { roles: [UserRole.ADMIN, UserRole.BAKER, UserRole.USER] }
 }, {
   path: 'products',
   component: ProductListComponent,

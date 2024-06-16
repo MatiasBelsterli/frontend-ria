@@ -38,6 +38,11 @@
               <i class="fa-solid fa-cart-shopping"></i>
             </span>
           </a>
+          <a *ngIf="userType === UserRole.USER" routerLink="/profile">
+            <span class="icon">
+              <i class="fa-solid fa-user"></i>
+            </span>
+          </a>
         </div>
       </div>
     </div>

@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="column is-4 is-offset-4">
+    <h2 class="title has-text-centered">Profile</h2>
+    <div class="box">
+      <div class="is-flex is-justify-content-center is-align-items-center">
+        <figure class="image is-128x128">
+          <img class="is-rounded" [src]="user?.image ? 'data:image/jpeg;base64,' + user?.image : 'https://bulma.io/assets/images/placeholders/128x128.png'" />
+        </figure>
+      </div>
+      <h6 class="title is-6 has-text-centered mt-5">Hello {{ user?.name }} {{ user?.lastName }}!</h6>
+      <div class="box no-shadow">
+        <h6 class="title is-6">Contact Information</h6>
+        <div>
+          <h6 class="subtitle is-6">Email: {{ user?.email }}</h6>
+          <h6 class="subtitle is-6">Phone Number: {{ user?.phone }}</h6>
+        </div>
+      </div>
+      <div class="has-text-centered mt-5">
+        <button class="button is-link" (click)="openEditModal()">Edit Profile</button>
+      </div>
+    </div>
+    <app-user-view></app-user-view>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" [ngClass]="{ 'is-active': isEditModalActive }">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Edit Profile</p>
+      <button class="delete" aria-label="close" (click)="closeEditModal()"></button>
+    </header>
+    <section class="modal-card-body">
+      <form [formGroup]="editForm" (ngSubmit)="onSubmitEdit()">
+        <div class="field">
+          <label class="label">First Name</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="First Name" formControlName="firstName">
+            <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+          <p class="help is-danger" *ngIf="((editForm.get('firstName')?.touched || formSubmitted) && editForm.get('firstName')?.hasError('required'))">
+            Name is required
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="label">Last Name</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="Last Name" formControlName="lastName">
+            <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+          <p class="help is-danger" *ngIf="((editForm.get('lastName')?.touched || formSubmitted) && editForm.get('lastName')?.hasError('required'))">
+            Last name is required
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="label">Phone</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input" type="tel" placeholder="Phone Number" formControlName="phone">
+            <span class="icon is-small is-left">
+              <i class="fas fa-phone"></i>
+            </span>
+          </div>
+          <p class="help is-danger" *ngIf="((editForm.get('phone')?.touched || formSubmitted) && editForm.get('phone')?.hasError('required'))">
+            Phone number is required
+          </p>
+          <p class="help is-danger" *ngIf="(editForm.get('phone')?.hasError('minlength'))">
+            Phone number must be at least 9 characters
+          </p>
+          <p class="help is-danger" *ngIf="(editForm.get('phone')?.hasError('maxlength'))">
+            Phone number must be at most 11 characters
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="label">Profile Picture</label>
+          <div class="file has-text-centered">
+            <label class="control file-label">
+              <input class="file-input" type="file" name="image" (change)="validImage($event)" />
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  {{ imagePreview ? 'Change image' : 'Choose an image…' }}
+                </span>
+              </span>
+            </label>
+          </div>
+          <p class="help is-danger" *ngIf="editForm.get('image')?.errors?.['invalidFileType']">
+            Invalid file type. Only images are allowed.
+          </p>
+          <p class="help is-danger" *ngIf="editForm.get('image')?.errors?.['invalidFileSize']">
+            File size must be less than 2MB.
+          </p>
+          <div *ngIf="imagePreview" class="image-preview is-justify-content-center">
+            <img [src]="imagePreview" alt="Image Preview" />
+          </div>
+        </div>
+
+        <div class="field is-grouped is-grouped-right">
+          <div class="control">
+            <button type="button" class="button" (click)="closeEditModal()">Cancel</button>
+          </div>
+          <div class="control">
+            <button type="submit" class="button is-link">Save changes</button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
