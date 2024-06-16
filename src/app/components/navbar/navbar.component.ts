@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../../services/auth/auth.service";
-import {UserRole} from "../../enums/user-role";
+import { UserRole } from "../../enums/user-role";
+import { NavigationEnd, Router, Event } from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -13,12 +14,19 @@ export class NavbarComponent implements OnInit {
   public userType: string = '';
   isNavbarActive: boolean = false;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
   toggleNavbar() {
     this.isNavbarActive = !this.isNavbarActive;
   }
   ngOnInit() {
+
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.isNavbarActive = false;
+      }
+    });
+
     this.authService.checkTokenValidity();
     this.authService.isLoggedIn.subscribe(loggedIn => {
       this.isLogged = loggedIn;
