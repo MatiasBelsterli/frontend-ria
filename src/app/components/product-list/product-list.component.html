@@ -1,12 +1,36 @@
 <section class="container fixed-grid has-1-cols has-2-cols-tablet has-3-cols-desktop has-4-cols-widescreen"
-  *ngIf="productList$ | async as productList; else loaderAndError">
+         *ngIf="productList$ | async as productList; else loaderAndError">
   <h2 class="title mb-1">Products</h2>
   <div *ngIf="userType === UserRole.ADMIN" class="button-group mb-4">
     <a class="button" [routerLink]="['/products/new']">New product</a>
   </div>
+  <form (submit)="loadProducts()" class="my-4">
+    <div class="field has-addons">
+      <div class="control">
+        <input type="text" name="searchField" [formControl]="searchTerm" placeholder="Search by name" class="input">
+      </div>
+      <div class="control">
+        <button class="button is-link">
+          Search
+        </button>
+      </div>
+    </div>
+  </form>
   <div class="product-list grid">
-    <app-product-card *ngFor="let product of productList" [product]="product" [userType]="userType" (deleted)="deleteProduct($event)" [id]="'product_'+product.id"/>
+    <app-product-card *ngFor="let product of productList.products" [product]="product" [userType]="userType" (deleted)="deleteProduct($event)" [id]="'product_'+product.id"></app-product-card>
   </div>
+  <nav class="pagination" role="navigation" aria-label="pagination">
+    <ul class="pagination-list">
+      <li *ngFor="let page of [].constructor(totalPages); let i = index">
+        <a class="pagination-link"
+           [class.is-current]="currentPage === i + 1"
+           (click)="onPageChange(i + 1)"
+           [attr.aria-label]="'Goto page ' + (i + 1)">
+          {{i + 1}}
+        </a>
+      </li>
+    </ul>
+  </nav>
 </section>
 <ng-template #loaderAndError>
   <section *ngIf="hasError; else loader">

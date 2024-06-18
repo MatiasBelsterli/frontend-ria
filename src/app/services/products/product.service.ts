@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Product } from '../../models/products/product.model';
 
 @Injectable({
@@ -12,8 +12,14 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+  getProducts(page: number, limit: number, searchTerm: string = '',): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    if (searchTerm) {
+      params = params.set('searchTerm', searchTerm);
+    }
+    return this.http.get<any>(this.apiUrl, { params });
   }
 
   getProductById(id: number): Observable<Product> {
