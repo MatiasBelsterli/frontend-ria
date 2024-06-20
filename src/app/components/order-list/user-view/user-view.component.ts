@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Order } from '../../../models/orders/order.model';
-import { OrderService } from '../../../services/orders/order.service';
-import { Observable } from 'rxjs';
-import { catchError } from "rxjs/operators";
+import {Component, OnInit} from '@angular/core';
+import {OrderService} from '../../../services/orders/order.service';
+import {Observable, of} from 'rxjs';
+import {catchError} from "rxjs/operators";
 import {OrderStatus} from "../../../enums/order-status";
+import {toast} from "bulma-toast";
 
 @Component({
   selector: 'app-user-view',
@@ -11,8 +11,13 @@ import {OrderStatus} from "../../../enums/order-status";
   styleUrl: './user-view.component.scss'
 })
 export class UserViewComponent implements OnInit {
-  orderList$!: Observable<Order[]>;
+  orderList$: Observable<any> = of( {orders: [], totalPages: 0});
   hasError: boolean = false;
+
+  totalPages: number = 0;
+  currentPage = 1;
+  limit = 8;
+  sortOrder: string = '';
 
   constructor(private orderService: OrderService) { }
 
@@ -20,20 +25,50 @@ export class UserViewComponent implements OnInit {
     this.loadOrders();
   }
 
+  onSort(event: any) {
+    this.sortOrder = event.target.value;
+    this.loadOrders();
+  }
+
   loadOrders() {
-    this.orderList$ = this.orderService.getOrdersByUser().pipe(catchError(err => {
-      console.error('Error getting orders', err);
-      this.hasError = true;
-      return [];
-    }));
+    this.orderList$ = this.orderService.getOrdersByUser(this.currentPage, this.limit, this.sortOrder).pipe(
+      catchError(err => {
+        console.error('Error getting orders', err);
+        this.hasError = true;
+        return of({ orders: [], totalPages: 0 });
+      })
+    );
+    this.orderList$.subscribe(data => {
+      this.totalPages = data.totalPages;
+    })
+  }
+
+  onPageChange(page: number) {
+    if (page === this.currentPage) return
+    this.currentPage = page;
+    this.loadOrders();
   }
 
   changeOrderStatus(event: { orderId: number, status: OrderStatus }) {
     this.orderService.changeOrderStatus(event.orderId, event.status).subscribe({
       next: () => {
+        toast({
+          message: 'Order canceled successfully!      ',
+          type: 'is-success',
+          position: 'top-center',
+          duration: 3000,
+          dismissible: true,
+        })
         this.loadOrders()
       },
       error: (err) => {
+        toast({
+          message: 'Error changing order status      ',
+          type: 'is-danger',
+          position: 'top-center',
+          duration: 3000,
+          dismissible: true,
+        })
         console.error('Error changing order status', err);
       }
     });

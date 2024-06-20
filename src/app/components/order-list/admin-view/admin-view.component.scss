@@ -1,3 +1,19 @@
 .border-bottom {
   border-bottom: 1px solid #0c0b0b;
 }
+span {
+  flex: 1;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .container.box.is-scrollable {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem;
+  }
+
+  .columns.is-mobile {
+    margin: 0 !important;
+  }
+}

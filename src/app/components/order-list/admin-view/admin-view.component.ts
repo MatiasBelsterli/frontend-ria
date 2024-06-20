@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
-import {Order} from "../../../models/orders/order.model";
+import {Observable, of} from "rxjs";
 import {OrderService} from "../../../services/orders/order.service";
 import {catchError} from "rxjs/operators";
 
@@ -10,9 +9,13 @@ import {catchError} from "rxjs/operators";
   styleUrl: './admin-view.component.scss'
 })
 export class AdminViewComponent implements OnInit {
-  orderList$!: Observable<Order[]>;
+  orderList$: Observable<any> = of( {orders: [], totalPages: 0});
   hasError: boolean = false;
-  visibleOrderDetails: Set<number> = new Set();
+
+  totalPages: number = 0;
+  currentPage = 1;
+  limit = 8;
+  sortOrder: string = '';
 
   constructor(private orderService: OrderService) { }
 
@@ -20,23 +23,27 @@ export class AdminViewComponent implements OnInit {
     this.loadOrders();
   }
 
+  onSort(event: any) {
+    this.sortOrder = event.target.value;
+    this.loadOrders();
+  }
+
   loadOrders() {
-    this.orderList$ = this.orderService.getOrdersByUser().pipe(catchError(err => {
-      console.error('Error getting orders', err);
-      this.hasError = true;
-      return [];
-    }));
+    this.orderList$ = this.orderService.getOrdersByUser(this.currentPage, this.limit, this.sortOrder).pipe(
+      catchError(err => {
+        console.error('Error getting orders', err);
+        this.hasError = true;
+        return of({ orders: [], totalPages: 0 });
+      })
+    );
+    this.orderList$.subscribe(data => {
+      this.totalPages = data.totalPages;
+    })
   }
 
-  toggleOrderDetails(index: number) {
-    if (this.visibleOrderDetails.has(index)) {
-      this.visibleOrderDetails.delete(index);
-    } else {
-      this.visibleOrderDetails.add(index);
-    }
-  }
-
-  isOrderDetailsVisible(index: number): boolean {
-    return this.visibleOrderDetails.has(index);
+  onPageChange(page: number) {
+    if (page === this.currentPage) return
+    this.currentPage = page;
+    this.loadOrders();
   }
 }

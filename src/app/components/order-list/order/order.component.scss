@@ -13,3 +13,9 @@ span {
 button {
   width: 100px;
 }
+
+.vertical-center {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
