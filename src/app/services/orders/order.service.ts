@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Order } from "../../models/orders/order.model";
 import { OrderStatus } from "../../enums/order-status";
 import { Product } from "../../models/products/product.model";
@@ -15,8 +15,14 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  getOrdersByUser() {
-    return this.http.get<Order[]>(this.apiUrl)
+  getOrdersByUser(page: number, limit: number, sortOrder: string = '') {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    if (sortOrder) {
+      params = params.set('sortOrder', sortOrder);
+    }
+    return this.http.get<Order[]>(this.apiUrl, { params })
   }
 
   changeOrderStatus(orderId: number, status: OrderStatus): Observable<Order> {
@@ -37,8 +43,14 @@ export class OrderService {
     return this.http.post<Order>(this.apiUrl, { products: productCart , deliveryDate});
   }
 
-  getOrdersToBakers() {
-    return this.http.get<Order[]>(`${this.apiUrl}/bakers`);
+  getOrdersToBakers(page: number, limit: number, sortOrder: string = '') {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    if (sortOrder) {
+      params = params.set('sortOrder', sortOrder);
+    }
+    return this.http.get<Order[]>(`${this.apiUrl}/bakers`, { params });
   }
 
   takeOrderToBaker(orderId: number) {
