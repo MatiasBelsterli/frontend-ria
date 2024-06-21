@@ -1,51 +1,59 @@
 <section
-    *ngIf="orderList$ | async as orderList; else loaderAndError">
-  <div class="is-flex-desktop is-column-gap-2">
-    <div class="select mb-4">
-      <select (change)="onSort($event)">
-        <option value="">Sort by Request Date</option>
-        <option value="ascRequest">Old to New</option>
-        <option value="descRequest">New to Old</option>
-      </select>
+  *ngIf="orderList$ | async as orderList; else loaderAndError">
+  <ng-container *ngIf="orderList.orders.length > 0; else emptyState">
+    <div class="is-flex-desktop is-column-gap-2">
+      <div class="select mb-4">
+        <select (change)="onSort($event)">
+          <option value="">Sort by Request Date</option>
+          <option value="ascRequest">Old to New</option>
+          <option value="descRequest">New to Old</option>
+        </select>
+      </div>
+      <div class="select mb-4">
+        <select (change)="onSort($event)">
+          <option value="">Sort by Delivery Date</option>
+          <option value="ascDelivery">Old to New</option>
+          <option value="descDelivery">New to Old</option>
+        </select>
+      </div>
+      <div class="select mb-4">
+        <select (change)="onSort($event)">
+          <option value="">Sort by Total Price</option>
+          <option value="ascPrice">Low to High</option>
+          <option value="descPrice">High to Low</option>
+        </select>
+      </div>
     </div>
-    <div class="select mb-4">
-      <select (change)="onSort($event)">
-        <option value="">Sort by Delivery Date</option>
-        <option value="ascDelivery">Old to New</option>
-        <option value="descDelivery">New to Old</option>
-      </select>
+    <div class="container box is-scrollable" style="padding-bottom: .1rem">
+      <div class="columns is-mobile has-text-weight-bold">
+        <div class="column">Request Date</div>
+        <div class="column">Delivery Date</div>
+        <div class="column has-text-centered">Total Price</div>
+        <div class="column has-text-centered">Status</div>
+      </div>
+      <ng-container *ngFor="let order of orderList.orders">
+        <app-order [order]="order" [options]="false"/>
+      </ng-container>
     </div>
-    <div class="select mb-4">
-      <select (change)="onSort($event)">
-        <option value="">Sort by Total Price</option>
-        <option value="ascPrice">Low to High</option>
-        <option value="descPrice">High to Low</option>
-      </select>
+    <nav class="pagination" role="navigation" aria-label="pagination">
+      <ul class="pagination-list">
+        <li *ngFor="let page of [].constructor(totalPages); let i = index">
+          <a class="pagination-link"
+             [class.is-current]="currentPage === i + 1"
+             (click)="onPageChange(i + 1)"
+             [attr.aria-label]="'Goto page ' + (i + 1)">
+            {{i + 1}}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </ng-container>
+  <ng-template #emptyState>
+    <div class="empty-state has-text-centered">
+      <i class="fas fa-list-alt" style="font-size: 2rem; color: #b0b0b0;"></i>
+      <p>It looks like you don't have any orders yet</p>
     </div>
-  </div>
-  <div class="container box is-scrollable" style="padding-bottom: .1rem">
-    <div class="columns is-mobile has-text-weight-bold">
-      <div class="column">Request Date</div>
-      <div class="column">Delivery Date</div>
-      <div class="column has-text-centered">Total Price</div>
-      <div class="column has-text-centered">Status</div>
-    </div>
-    <ng-container *ngFor="let order of orderList.orders">
-      <app-order [order]="order" [options]="false"/>
-    </ng-container>
-  </div>
-  <nav class="pagination" role="navigation" aria-label="pagination">
-    <ul class="pagination-list">
-      <li *ngFor="let page of [].constructor(totalPages); let i = index">
-        <a class="pagination-link"
-           [class.is-current]="currentPage === i + 1"
-           (click)="onPageChange(i + 1)"
-           [attr.aria-label]="'Goto page ' + (i + 1)">
-          {{i + 1}}
-        </a>
-      </li>
-    </ul>
-  </nav>
+  </ng-template>
 </section>
 <ng-template #loaderAndError>
   <section *ngIf="hasError; else loader">
