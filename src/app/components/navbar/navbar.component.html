@@ -17,6 +17,7 @@
           {{userType === UserRole.BAKER ? 'Orders' : 'My Orders'}}
         </a>
         <a *ngIf="userType === UserRole.BAKER" class="navbar-item" routerLink="/my-orders">My Orders</a>
+        <a *ngIf="userType === UserRole.ADMIN" class="navbar-item" routerLink="/supplies">Supplies</a>
       </ng-container>
     </div>
 

@@ -1,0 +1,19 @@
+.buttons-right {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.submit-button {
+  margin-left: auto;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
