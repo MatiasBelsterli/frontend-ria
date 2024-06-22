@@ -10,6 +10,7 @@ import { authGuard, noAuthGuard } from './services/auth/auth-guard/auth.guard';
 import { UserRole } from './enums/user-role';
 import { BakerOrderListComponent } from './components/baker-order-list/baker-order-list.component';
 import { UserProfileComponent } from "./components/user-profile/user-profile.component";
+import { SuppliesListComponent } from "./components/supplies/supplies-list/supplies-list.component";
 
 const routes: Routes = [{
   path: 'login',
@@ -54,6 +55,11 @@ const routes: Routes = [{
   component: BakerOrderListComponent,
   canActivate: [authGuard],
   data: { roles: [UserRole.BAKER] }
+}, {
+  path: 'supplies',
+  component: SuppliesListComponent,
+  canActivate: [authGuard],
+  data: { roles: [UserRole.ADMIN] }
 },
 
 ];

@@ -23,6 +23,8 @@ import { OrderComponent } from './components/order-list/order/order.component';
 import { AdminViewComponent } from "./components/order-list/admin-view/admin-view.component";
 import { FlatpickrModule } from 'angularx-flatpickr'
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { SuppliesListComponent } from './components/supplies/supplies-list/supplies-list.component';
+import { SupplyModalComponent } from "./components/supplies/supply-modal/supply-modal.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     OrderComponent,
     AdminViewComponent,
     UserProfileComponent,
+    SuppliesListComponent,
+    SupplyModalComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,42 @@
+<div class="container px-2">
+  <h2 class="title">Supplies List</h2>
+  <button class="button is-primary mb-3" (click)="openModal(false)">Create Supply</button>
+
+  <div class="notification is-primary" [ngClass]="{'is-hidden': !showNotification}">
+    <button class="delete" (click)="deleteNotification()"></button>
+    Supply <span class="title is-6">{{supplyName}}</span> {{isEditMode ? 'updated' : 'created'}} successfully
+  </div>
+
+  <div class="box">
+    <table class="table is-fullwidth">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Unit</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let supply of supplies">
+        <td>{{ supply.name }}</td>
+        <td>{{ supply.unit }}</td>
+        <td>{{ supply.price | currency }}</td>
+        <td>
+          <button class="button is-small is-primary mr-1 actionButton" (click)="openModal(true, supply)">Edit</button>
+          <button class="button is-small is-danger actionButton" (click)="deleteSupply(supply.id!)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-supply-modal
+    [isEditMode]="isEditMode"
+    [isModalActive]="isModalActive"
+    [supply]="selectedSupply"
+    [isLoading]="isLoading"
+    (closeModalEvent)="closeModal()"
+    (submitFormEvent)="handleFormSubmit($event)"
+  ></app-supply-modal>
+</div>
