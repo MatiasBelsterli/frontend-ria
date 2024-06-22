@@ -1,6 +1,5 @@
-<section
-    *ngIf="orderList$ | async as orderList; else loaderAndError">
-  <ng-container *ngIf="orderList.length > 0; else emptyState">
+<section *ngIf="orderList$ | async as orderList; else loaderAndError">
+  <ng-container *ngIf="orderList.orders.length > 0; else emptyState">
     <div class="is-flex-desktop is-column-gap-2">
       <div class="select mb-4">
         <select (change)="onSort($event)">
@@ -32,8 +31,8 @@
         <div class="column has-text-centered">Status</div>
         <div class="column has-text-centered">Options</div>
       </div>
-      <ng-container *ngFor="let order of orderList">
-        <app-order [order]="order" (changeOrderStatus)="changeOrderStatus($event)" />
+      <ng-container *ngFor="let order of orderList.orders">
+        <app-order [order]="order" (changeOrderStatus)="changeOrderStatus($event)"></app-order>
       </ng-container>
     </div>
   </ng-container>
@@ -43,14 +42,14 @@
       <p>It looks like you don't have any orders yet</p>
     </div>
   </ng-template>
+</section>
+<ng-template #loaderAndError>
+  <section *ngIf="hasError; else loader">
+    <p>Something went wrong. Please try again later.</p>
   </section>
-  <ng-template #loaderAndError>
-    <section *ngIf="hasError; else loader">
-      <p>Something went wrong. Please try again later.</p>
-    </section>
-    <ng-template #loader>
-      <div class="loader-wrapper">
-        <div class="loader is-loading"></div>
-      </div>
-    </ng-template>
+  <ng-template #loader>
+    <div class="loader-wrapper">
+      <div class="loader is-loading"></div>
+    </div>
   </ng-template>
+</ng-template>
