@@ -7,6 +7,18 @@
     Supply <span class="title is-6">{{supplyName}}</span> {{isEditMode ? 'updated' : 'created'}} successfully
   </div>
 
+  <form (submit)="loadSupplies()" class="my-4 is-flex-mobile is-justify-content-center">
+    <div class="field has-addons">
+      <div class="control">
+        <input type="text" name="searchField" [formControl]="searchTerm" placeholder="Search by name" class="input">
+      </div>
+      <div class="control">
+        <button class="button is-link">
+          Search
+        </button>
+      </div>
+    </div>
+  </form>
   <div class="box">
     <table class="table is-fullwidth">
       <thead>
@@ -30,6 +42,18 @@
       </tbody>
     </table>
   </div>
+  <nav class="pagination" role="navigation" aria-label="pagination">
+    <ul class="pagination-list">
+      <li *ngFor="let page of [].constructor(totalPages); let i = index">
+        <a class="pagination-link"
+           [class.is-current]="currentPage === i + 1"
+           (click)="onPageChange(i + 1)"
+           [attr.aria-label]="'Goto page ' + (i + 1)">
+          {{i + 1}}
+        </a>
+      </li>
+    </ul>
+  </nav>
 
   <app-supply-modal
     [isEditMode]="isEditMode"

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Supply } from "../../../models/supplies/supply.model";
 import { SuppliesService } from "../../../services/supplies/supplies.service";
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: 'app-supplies-list',
@@ -15,6 +16,11 @@ export class SuppliesListComponent implements OnInit {
   supplyName = '';
   showNotification = false;
   isModalActive = false;
+  searchTerm = new FormControl('');
+
+  totalPages: number = 0;
+  currentPage = 1;
+  limit = 1;
 
   constructor(private suppliesService: SuppliesService) {}
 
@@ -23,8 +29,9 @@ export class SuppliesListComponent implements OnInit {
   }
 
   loadSupplies(): void {
-    this.suppliesService.getSupplies().subscribe((data: Supply[]) => {
-      this.supplies = data;
+    this.suppliesService.getSupplies(this.currentPage, this.limit, this.searchTerm.value ?? '').subscribe((data: any) => {
+      this.supplies = data.supplies;
+      this.totalPages = data.totalPages
     });
   }
 
@@ -71,6 +78,12 @@ export class SuppliesListComponent implements OnInit {
         this.isModalActive = false;
       });
     }
+  }
+
+  onPageChange(page: number) {
+    if (page === this.currentPage) return
+    this.currentPage = page;
+    this.loadSupplies();
   }
 
   deleteNotification(): void {
