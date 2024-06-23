@@ -10,11 +10,13 @@ export class ShoppingCartProductComponent implements OnInit{
   @Input({ required: true }) product!: Product;
   @Input({ required: true }) initialQuantity!: number;
   @Output() newerQuantity = new EventEmitter<{ id: number, quantity: number | null }>;
+  urlImage: string = 'https://via.placeholder.com/128x128.png?text=Image'
 
   quantity: number = 0;
 
   ngOnInit() {
     this.quantity = this.initialQuantity;
+    if (this.product.image !== null) this.urlImage = `data:image/png;base64,${this.product.image}`;
   }
 
   emitNewQuantity() {
