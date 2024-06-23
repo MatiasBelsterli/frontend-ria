@@ -2,7 +2,7 @@
   <div class="is-flex is-align-items-center is-flex-tablet-direction-column">
     <div class="is-flex-shrink-0 mr-4">
       <figure class="image is-96x96">
-        <img src="https://via.placeholder.com/128x128.png?text=Image" [alt]="product.name">
+        <img [src]="urlImage" [alt]="product.name">
       </figure>
     </div>
 
@@ -21,7 +21,7 @@
               <button class="button rounded-left-corners" (click)="decreaseQuantity()">-</button>
             </p>
             <p class="control">
-              <input class="input no-rounded is-centered" type="number" style="width: 7ch" [(ngModel)]="quantity" min="1"
+              <input class="input no-rounded has-text-centered" type="number" style="width: 7ch" [(ngModel)]="quantity" min="1"
                 required readonly />
             </p>
             <p class="control">
