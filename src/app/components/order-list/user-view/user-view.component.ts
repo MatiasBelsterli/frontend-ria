@@ -16,7 +16,12 @@ export class UserViewComponent implements OnInit {
   totalPages: number = 0;
   currentPage = 1;
   limit = 8;
-  sortOrder: string = '';
+  filters: any = {
+    sortRequestDate: '',
+    sortDeliveryDate: '',
+    sortPrice: '',
+    status: ''
+  };
 
   constructor(private orderService: OrderService) {}
 
@@ -24,13 +29,18 @@ export class UserViewComponent implements OnInit {
     this.loadOrders();
   }
 
-  onSort(event: any) {
-    this.sortOrder = event.target.value;
+  onSort(filterType: string, value: any) {
+    if (filterType !== 'status') {
+      this.filters.sortRequestDate = '';
+      this.filters.sortDeliveryDate = '';
+      this.filters.sortPrice = '';
+    }
+    this.filters[filterType] = value.target.value;
     this.loadOrders();
   }
 
   loadOrders() {
-    this.orderList$ = this.orderService.getOrdersByUser(this.currentPage, this.limit, this.sortOrder).pipe(
+    this.orderList$ = this.orderService.getOrdersByUser(this.currentPage, this.limit, this.filters).pipe(
       catchError(err => {
         console.error('Error getting orders', err);
         this.hasError = true;

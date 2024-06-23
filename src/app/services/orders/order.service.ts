@@ -15,13 +15,13 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  getOrdersByUser(page: number, limit: number, sortOrder: string = '') {
+  getOrdersByUser(page: number, limit: number, filters: any) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
-    if (sortOrder) {
-      params = params.set('sortOrder', sortOrder);
-    }
+    Object.keys(filters).forEach(key => {
+      if (filters[key]) params = params.set(key, filters[key]);
+    });
     return this.http.get<Order[]>(this.apiUrl, { params })
   }
 
@@ -43,13 +43,13 @@ export class OrderService {
     return this.http.post<Order>(this.apiUrl, { products: productCart , deliveryDate});
   }
 
-  getOrdersToBakers(page: number, limit: number, sortOrder: string = '') {
+  getOrdersToBakers(page: number, limit: number, filters: any) {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
-    if (sortOrder) {
-      params = params.set('sortOrder', sortOrder);
-    }
+    Object.keys(filters).forEach(key => {
+      if (filters[key]) params = params.set(key, filters[key]);
+    });
     return this.http.get<Order[]>(`${this.apiUrl}/bakers`, { params });
   }
 

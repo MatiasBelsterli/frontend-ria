@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrderStatus } from '../../../enums/order-status';
 import { OrderService } from '../../../services/orders/order.service';
 import { catchError, Observable, of } from 'rxjs';
-import {toast} from "bulma-toast";
+import { toast } from "bulma-toast";
 
 @Component({
   selector: 'app-baker-view',
@@ -15,7 +15,11 @@ export class BakerViewComponent implements OnInit {
   totalPages: number = 0;
   currentPage = 1;
   limit = 8;
-  sortOrder: string = '';
+  filters: any = {
+    sortRequestDate: '',
+    sortDeliveryDate: '',
+    sortPrice: '',
+  };
 
   constructor(private orderService: OrderService) { }
 
@@ -23,13 +27,16 @@ export class BakerViewComponent implements OnInit {
     this.loadOrders();
   }
 
-  onSort(event: any) {
-    this.sortOrder = event.target.value;
+  onSort(filterType: string, value: any) {
+    this.filters.sortRequestDate = '';
+    this.filters.sortDeliveryDate = '';
+    this.filters.sortPrice = '';
+    this.filters[filterType] = value.target.value;
     this.loadOrders();
   }
 
   loadOrders() {
-    this.orderList$ = this.orderService.getOrdersToBakers(this.currentPage, this.limit, this.sortOrder).pipe(
+    this.orderList$ = this.orderService.getOrdersToBakers(this.currentPage, this.limit, this.filters).pipe(
       catchError(err => {
         console.error('Error getting orders', err);
         this.hasError = true;
