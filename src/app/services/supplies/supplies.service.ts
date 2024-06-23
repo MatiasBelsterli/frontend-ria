@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Supply } from "../../models/supplies/supply.model";
 
@@ -11,8 +11,14 @@ export class SuppliesService {
 
   constructor(private http: HttpClient) { }
 
-  getSupplies(): Observable<Supply[]> {
-    return this.http.get<Supply[]>(this.apiUrl);
+  getSupplies(page: number, limit: number, searchTerm: string = ''): Observable<Supply[]> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    if (searchTerm) {
+      params = params.set('searchTerm', searchTerm);
+    }
+    return this.http.get<Supply[]>(this.apiUrl, { params });
   }
 
   getSupplyById(id: number): Observable<Supply> {
