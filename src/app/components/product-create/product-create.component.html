@@ -7,7 +7,6 @@
     <h2 class="title">{{isEditMode ? 'Edit' : 'Create'}} Product</h2>
     <div class="box">
       <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-
         <div class="field">
           <label class="label" for="nameProduct">Name</label>
           <div class="control">
@@ -50,7 +49,7 @@
                 <span class="file-icon">
                   <i class="fas fa-upload"></i>
                 </span>
-                <span class="file-label"> Choose a file… </span>
+                <span class="file-label">{{ fileLabel }}</span>
               </span>
             </label>
           </div>
@@ -65,7 +64,44 @@
           </p>
         </div>
 
-        <div class="field is-grouped">
+        <div class="field">
+          <label class="label">Supplies</label>
+          <div formArrayName="supplies">
+            <div *ngFor="let supply of suppliesFormArray.controls; let i = index" [formGroupName]="i" class="box">
+              <div class="field">
+                <label class="label">Supply</label>
+                <div class="control">
+                  <div class="select">
+                    <select formControlName="supplyId">
+                      <option *ngFor="let supply of supplies" [value]="supply.id">{{ supply.name }}</option>
+                    </select>
+                  </div>
+                </div>
+                <p class="help is-danger" *ngIf="supply.get('supplyId')?.invalid && (supply.get('supplyId')?.touched || formSubmitted)">
+                  Please select a valid supply
+                </p>
+              </div>
+              <div class="field">
+                <label class="label">Quantity</label>
+                <div class="control">
+                  <input class="input" type="number" placeholder="Quantity" formControlName="quantity">
+                </div>
+                <p class="help is-danger"
+                   *ngIf="supply.get('quantity')?.invalid && (supply.get('quantity')?.touched || formSubmitted)">
+                  This quantity is invalid
+                </p>
+              </div>
+              <button type="button" class="button is-danger" (click)="removeSupply(i)">Remove</button>
+            </div>
+          </div>
+          <button type="button" class="button is-primary mt-2" (click)="addSupply()">Add Supply</button>
+        </div>
+
+        <p class="help is-danger" *ngIf="hasDuplicateSupplies || productForm.get('supplies')?.errors?.['duplicateSupplies']">
+          Duplicate supplies are not allowed.
+        </p>
+
+        <div class="field is-grouped mt-2">
           <div class="control">
             <button class="button is-link" [ngClass]="{'is-loading': isLoading}">{{isEditMode ? 'Update' : 'Create'}} Product</button>
           </div>

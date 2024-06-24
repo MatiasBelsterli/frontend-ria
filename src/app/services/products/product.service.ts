@@ -8,11 +8,11 @@ import { Product } from '../../models/products/product.model';
 })
 export class ProductService {
 
-  private apiUrl = 'http://localhost:3000/products'; // URL del backend
+  private apiUrl = 'http://localhost:3000/products';
 
   constructor(private http: HttpClient) { }
 
-  getProducts(page: number, limit: number, searchTerm: string = '',): Observable<any> {
+  getProducts(page: number, limit: number, searchTerm: string = ''): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
@@ -26,22 +26,12 @@ export class ProductService {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
-  createProduct(product: Product): Observable<Product> {
-    const formData = new FormData();
-    formData.append('name', product.name);
-    formData.append('price', product.price.toString());
-    formData.append('description', product.description);
-    formData.append('image', product.image);
-    return this.http.post<Product>(this.apiUrl, formData);
+  createProduct(product: FormData): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, product);
   }
 
-  updateProduct(id: number, product: Product): Observable<Product> {
-    const formData = new FormData();
-    formData.append('name', product.name);
-    formData.append('price', product.price.toString());
-    formData.append('description', product.description);
-    formData.append('image', product.image); // If there is no image, '' is sent
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, formData);
+  updateProduct(id: number, product: FormData): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
   }
 
   deleteProduct(id: number): Observable<Product> {
