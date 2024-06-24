@@ -3,7 +3,7 @@ import { CartService } from '../../services/cart/cart.service';
 import { Product } from '../../models/products/product.model';
 import { OrderService } from '../../services/orders/order.service';
 import { toast } from 'bulma-toast';
-import {catchError, Observable} from "rxjs";
+import { catchError, Observable, of } from "rxjs";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -77,6 +77,7 @@ export class ShoppingCartComponent {
               position: 'top-center',
               duration: 4000,
             });
+            this.cartProducts$ = of([]);
           });
         },
         error: (error) => {
