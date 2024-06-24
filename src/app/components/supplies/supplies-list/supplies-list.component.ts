@@ -20,7 +20,7 @@ export class SuppliesListComponent implements OnInit {
 
   totalPages: number = 0;
   currentPage = 1;
-  limit = 1;
+  limit = 10;
 
   constructor(private suppliesService: SuppliesService) {}
 

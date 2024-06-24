@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/products/product.service';
+import { SuppliesService } from '../../services/supplies/supplies.service';
+import { Supply } from '../../models/supplies/supply.model';
 import { fileValidator } from "../../validators/file-validator";
+import { noDuplicateSupplies } from "../../validators/supplies-validator";
 
 @Component({
   selector: 'app-product-create',
   templateUrl: './product-create.component.html',
-  styleUrl: './product-create.component.scss'
+  styleUrls: ['./product-create.component.scss']
 })
 export class ProductCreateComponent implements OnInit {
 
@@ -17,10 +20,14 @@ export class ProductCreateComponent implements OnInit {
   isEditMode: boolean = false;
   productId: string | null = null;
   productName = '';
+  supplies: Supply[] = [];
+  hasDuplicateSupplies: boolean = false;
+  fileLabel: string = 'Choose a file…';
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
+    private suppliesService: SuppliesService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -28,7 +35,8 @@ export class ProductCreateComponent implements OnInit {
       name: ['', Validators.required],
       price: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       description: ['', Validators.required],
-      image: ['', fileValidator(['image/jpeg', 'image/png'], 2 * 1024 * 1024)]
+      image: ['', fileValidator(['image/jpeg', 'image/png'], 2 * 1024 * 1024)],
+      supplies: this.fb.array([], noDuplicateSupplies())
     });
   }
 
@@ -44,6 +52,14 @@ export class ProductCreateComponent implements OnInit {
       }
       this.productForm.get('image')?.updateValueAndValidity();
     });
+
+    this.loadSupplies();
+  }
+
+  loadSupplies() {
+    this.suppliesService.getSupplies(1, 100).subscribe((data: any) => {
+      this.supplies = data.supplies;
+    });
   }
 
   loadProductData() {
@@ -52,9 +68,31 @@ export class ProductCreateComponent implements OnInit {
         name: product.name,
         price: product.price,
         description: product.description,
-        // We do not load the image, since we cannot preview it
+      });
+      const suppliesFormArray = this.productForm.get('supplies') as FormArray;
+      product.supplies.forEach(supply => {
+        suppliesFormArray.push(this.createSupplyFormGroup(supply.supplyId, supply.quantity));
       });
     });
+  }
+
+  createSupplyFormGroup(supplyId: number | null, quantity: number | null): FormGroup {
+    return this.fb.group({
+      supplyId: [supplyId, Validators.required],
+      quantity: [quantity, [Validators.required, Validators.min(1), Validators.pattern('^[0-9]*$')]]
+    });
+  }
+
+  addSupply() {
+    const suppliesFormArray = this.productForm.get('supplies') as FormArray;
+    const newSupplyFormGroup = this.createSupplyFormGroup(null, null);
+    newSupplyFormGroup.markAllAsTouched();
+    suppliesFormArray.push(newSupplyFormGroup);
+  }
+
+  removeSupply(index: number) {
+    const suppliesFormArray = this.productForm.get('supplies') as FormArray;
+    suppliesFormArray.removeAt(index);
   }
 
   validImage(event: any) {
@@ -63,25 +101,57 @@ export class ProductCreateComponent implements OnInit {
       const file = input.files[0];
       this.productForm.patchValue({ image: file });
       this.productForm.get('image')!.updateValueAndValidity();
+      this.fileLabel = 'Choose another image';
+    }
+  }
+
+  validateSupplies(): boolean {
+    const suppliesFormArray = this.productForm.get('supplies') as FormArray;
+    for (let i = 0; i < suppliesFormArray.length; i++) {
+      const supplyFormGroup = suppliesFormArray.at(i) as FormGroup;
+      if (supplyFormGroup.invalid) {
+        supplyFormGroup.markAllAsTouched();
+        return false;
+      }
+    }
+    this.hasDuplicateSupplies = this.productForm.get('supplies')?.hasError('duplicateSupplies') ?? false;
+    return !this.hasDuplicateSupplies;
+  }
+
+  clearSuppliesFormArray() {
+    const suppliesFormArray = this.productForm.get('supplies') as FormArray;
+    while (suppliesFormArray.length) {
+      suppliesFormArray.removeAt(0);
     }
   }
 
   onSubmit() {
     this.formSubmitted = true;
     this.isLoading = true;
-    if (this.productForm.valid) {
+    if (this.productForm.valid && this.validateSupplies()) {
+      const formData = new FormData();
+      Object.keys(this.productForm.controls).forEach(key => {
+        if (key !== 'supplies') {
+          formData.append(key, this.productForm.get(key)!.value);
+        }
+      });
+      formData.append('supplies', JSON.stringify(this.productForm.get('supplies')!.value));
+
       if (this.isEditMode) {
-        this.productService.updateProduct(Number(this.productId), this.productForm.value).subscribe(() => {
+        this.productService.updateProduct(Number(this.productId), formData).subscribe(() => {
           this.isLoading = false;
           this.router.navigate(['/products']);
+          this.clearSuppliesFormArray();
         });
       } else {
-        this.productService.createProduct(this.productForm.value).subscribe(() => {
+        this.productService.createProduct(formData).subscribe(() => {
           this.isLoading = false;
           this.formSubmitted = false;
           this.productName = this.productForm.get('name')!.value;
           document.querySelector('.notification')?.classList.remove('is-hidden');
           this.productForm.reset();
+          this.clearSuppliesFormArray();
+          this.fileLabel = 'Choose a file…';
         });
       }
     } else {
@@ -92,5 +162,9 @@ export class ProductCreateComponent implements OnInit {
   deleteNotification(e: any) {
     this.formSubmitted = false;
     e.target.parentElement.classList.add('is-hidden');
+  }
+
+  get suppliesFormArray() {
+    return this.productForm.get('supplies') as FormArray;
   }
 }
