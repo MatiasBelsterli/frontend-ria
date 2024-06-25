@@ -19,7 +19,10 @@ export class BakerViewComponent implements OnInit {
     sortRequestDate: '',
     sortDeliveryDate: '',
     sortPrice: '',
+    rangeFrom: null,
+    rangeTo: null,
   };
+  rangeDateFilter: { from: Date | null, to: Date | null } = { from: null, to: null }
 
   constructor(private orderService: OrderService) { }
 
@@ -31,7 +34,12 @@ export class BakerViewComponent implements OnInit {
     this.filters.sortRequestDate = '';
     this.filters.sortDeliveryDate = '';
     this.filters.sortPrice = '';
-    this.filters[filterType] = value.target.value;
+    if (filterType === 'rangeDate') {
+      this.filters.rangeFrom = value.target.value.from;
+      this.filters.rangeTo = value.target.value.to
+    } else {
+      this.filters[filterType] = value.target.value;
+    }
     this.loadOrders();
   }
 

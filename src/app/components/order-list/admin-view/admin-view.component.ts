@@ -19,8 +19,11 @@ export class AdminViewComponent implements OnInit {
     sortRequestDate: '',
     sortDeliveryDate: '',
     sortPrice: '',
-    status: ''
+    status: '',
+    rangeFrom: null,
+    rangeTo: null,
   };
+  rangeDateFilter: { from: Date | null, to: Date | null } = { from: null, to: null }
 
   constructor(private orderService: OrderService) { }
 
@@ -29,12 +32,15 @@ export class AdminViewComponent implements OnInit {
   }
 
   onSort(filterType: string, value: any) {
-    if (filterType !== 'status') {
-      this.filters.sortRequestDate = '';
-      this.filters.sortDeliveryDate = '';
-      this.filters.sortPrice = '';
+    this.filters.sortRequestDate = '';
+    this.filters.sortDeliveryDate = '';
+    this.filters.sortPrice = '';
+    if (filterType === 'rangeDate') {
+      this.filters.rangeFrom = value.target.value.from;
+      this.filters.rangeTo = value.target.value.to
+    } else {
+      this.filters[filterType] = value.target.value;
     }
-    this.filters[filterType] = value.target.value;
     this.loadOrders();
   }
 

@@ -1,27 +1,41 @@
-<section *ngIf="orderList$ | async as orderList; else loaderAndError">
-  <div class="is-flex-desktop is-column-gap-2">
-    <div class="select mb-4">
-      <select (change)="onSort('sortRequestDate', $event)" [value]="filters.sortRequestDate">
-        <option value="">Sort by Request Date</option>
-        <option value="ascRequest">Old to New</option>
-        <option value="descRequest">New to Old</option>
-      </select>
-    </div>
-    <div class="select mb-4">
-      <select (change)="onSort('sortDeliveryDate', $event)" [value]="filters.sortDeliveryDate">
-        <option value="">Sort by Delivery Date</option>
-        <option value="ascDelivery">Old to New</option>
-        <option value="descDelivery">New to Old</option>
-      </select>
-    </div>
-    <div class="select mb-4">
-      <select (change)="onSort('sortPrice', $event)" [value]="filters.sortPrice">
-        <option value="">Sort by Total Price</option>
-        <option value="ascPrice">Low to High</option>
-        <option value="descPrice">High to Low</option>
-      </select>
-    </div>
+<div class="is-flex-desktop is-column-gap-2">
+  <div class="select mb-4">
+    <select (change)="onSort('sortRequestDate', $event)" [value]="filters.sortRequestDate">
+      <option value="">Sort by Request Date</option>
+      <option value="ascRequest">Old to New</option>
+      <option value="descRequest">New to Old</option>
+    </select>
   </div>
+  <div class="select mb-4">
+    <select (change)="onSort('sortDeliveryDate', $event)" [value]="filters.sortDeliveryDate">
+      <option value="">Sort by Delivery Date</option>
+      <option value="ascDelivery">Old to New</option>
+      <option value="descDelivery">New to Old</option>
+    </select>
+  </div>
+  <div class="select mb-4">
+    <select (change)="onSort('sortPrice', $event)" [value]="filters.sortPrice">
+      <option value="">Sort by Total Price</option>
+      <option value="ascPrice">Low to High</option>
+      <option value="descPrice">High to Low</option>
+    </select>
+  </div>
+  <div class="select mb-4">
+    <input
+      type="text"
+      style="padding-right: 36px;"
+      class="input"
+      mwlFlatpickr
+      [(ngModel)]="rangeDateFilter"
+      altFormat="F j, Y" dateFormat="m-d-Y"
+      [convertModelValue]="true"
+      placeholder="Select Range Delivery"
+      mode="range"
+      (ngModelChange)="onSort('rangeDate', {target: {value: {to: this.rangeDateFilter.to, from: this.rangeDateFilter.from}}})"
+    >
+  </div>
+</div>
+<section *ngIf="orderList$ | async as orderList; else loaderAndError">
   <ng-container *ngIf="orderList.orders.length > 0; else emptyState">
     <div class="container box is-scrollable" style="padding-bottom: 0.1rem">
       <div class="columns is-mobile has-text-weight-bold">
