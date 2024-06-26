@@ -60,9 +60,10 @@ const routes: Routes = [{
   component: SuppliesListComponent,
   canActivate: [authGuard],
   data: { roles: [UserRole.ADMIN] }
-},
-
-];
+}, {
+  path: '**',
+  redirectTo: '/products'
+}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

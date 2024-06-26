@@ -10,7 +10,6 @@
 
   <div id="navbarBasicExample" class="navbar-menu" [ngClass]="{'is-active': isNavbarActive}">
     <div class="navbar-start has-text-right-touch">
-      <a class="navbar-item" routerLink="/">Home</a>
       <ng-container *ngIf="isLogged">
         <a class="navbar-item" routerLink="/products">Products</a>
         <a class="navbar-item" routerLink="/orders">
