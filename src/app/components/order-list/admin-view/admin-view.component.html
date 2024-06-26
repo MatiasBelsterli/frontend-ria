@@ -46,6 +46,9 @@
     >
   </div>
 </div>
+<div class="mb-4">
+  <button class="button" (click)="toggleModal(true)">View all supplies</button>
+</div>
 <section *ngIf="orderList$ | async as orderList; else loaderAndError">
   <ng-container *ngIf="orderList.orders.length > 0; else emptyState">
     <div class="container box is-scrollable" style="padding-bottom: .1rem">
@@ -89,3 +92,9 @@
     </div>
   </ng-template>
 </ng-template>
+
+<app-supplies-list-modal
+  [isModalActive]="isModalActive"
+  (closeModalEvent)="toggleModal(false)"
+  [supplies]="supplies"
+/>

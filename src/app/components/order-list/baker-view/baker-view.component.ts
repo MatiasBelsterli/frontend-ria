@@ -3,6 +3,8 @@ import { OrderStatus } from '../../../enums/order-status';
 import { OrderService } from '../../../services/orders/order.service';
 import { catchError, Observable, of } from 'rxjs';
 import { toast } from "bulma-toast";
+import { ProductSupply } from "../../../models/products/product.model";
+import { Order } from "../../../models/orders/order.model";
 
 @Component({
   selector: 'app-baker-view',
@@ -23,6 +25,8 @@ export class BakerViewComponent implements OnInit {
     rangeTo: null,
   };
   rangeDateFilter: { from: Date | null, to: Date | null } = { from: null, to: null }
+  isModalActive = false;
+  supplies: ProductSupply[] = []
 
   constructor(private orderService: OrderService) { }
 
@@ -53,6 +57,19 @@ export class BakerViewComponent implements OnInit {
     );
     this.orderList$.subscribe(data => {
       this.totalPages = data.totalPages;
+      this.supplies = []
+      data.orders.forEach((order: Order) => {
+        order.products.forEach(product => {
+          product.supplies.forEach(supply => {
+            let supplyEntry = this.supplies.find(entry => entry.supplyId === supply.supplyId);
+            if (!supplyEntry) {
+              supplyEntry = { supplyId: supply.supplyId, quantity: 0 };
+              this.supplies.push(supplyEntry);
+            }
+            supplyEntry.quantity += supply.quantity * (product.quantity ?? 0);
+          });
+        });
+      });
     })
   }
 
@@ -86,5 +103,9 @@ export class BakerViewComponent implements OnInit {
     if (page === this.currentPage) return
     this.currentPage = page;
     this.loadOrders();
+  }
+
+  toggleModal(to: boolean): void {
+    this.isModalActive = to;
   }
 }
