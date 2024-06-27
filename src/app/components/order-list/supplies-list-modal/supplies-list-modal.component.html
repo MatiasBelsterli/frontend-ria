@@ -1,0 +1,35 @@
+<div class="modal" [ngClass]="{'is-active': isModalActive}">
+  <div class="modal-background" (click)="closeModal()"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Necessary supplies</p>
+      <button class="delete" aria-label="close" (click)="closeModal()"></button>
+    </header>
+    <section class="modal-card-body">
+      <table class="table is-fullwidth" *ngIf="supplies && supplies.length > 0; else noSupplies">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Unit</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let supply of detailedSupplies">
+            <td>{{ supply.details?.name }}</td>
+            <td>{{ supply.details?.price | currency }}</td>
+            <td>{{ supply.quantity }}</td>
+            <td>{{ supply.details?.unit }}</td>
+            <td>{{ ((supply.details?.price ?? 0) * supply.quantity) | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noSupplies>
+        No hay supplies
+      </ng-template>
+    </section>
+  </div>
+</div>
+
