@@ -1,4 +1,4 @@
-  <div class="container mt-6" id="cart" data-example>
+<div class="mx-4 px-2" id="cart">
   <h1 class="title is-4 mb-2">Your Cart</h1>
   <ng-container *ngIf="cartProducts$ | async as cartProducts; else loaderAndError">
     <ng-container *ngIf="cartProducts.length > 0">
