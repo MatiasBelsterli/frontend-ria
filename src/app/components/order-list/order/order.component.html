@@ -6,7 +6,7 @@
   <div *ngIf="options" class="column has-text-centered">
     <button class="button {{ userType === UserRole.USER ? 'is-danger' : '' }} {{ userType === UserRole.BAKER ? 'is-primary ' : '' }}"
             (click)="changeOrderStatusEvent(); $event.stopPropagation()"
-            [disabled]="order.status !== 'WAITING'" style="width: 100px;">
+            [disabled]="(!toBaker && order.status !== 'WAITING') || (toBaker && order.status === 'COMPLETED')" style="width: 100px;">
       {{ textButton }}
     </button>
 

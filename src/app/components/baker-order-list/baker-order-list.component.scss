@@ -1,0 +1,21 @@
+@media screen and (max-width: 768px) {
+  .container.box.is-scrollable {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem;
+    width: 95%;
+    margin: auto;
+  }
+
+  .columns.is-mobile {
+    margin: 0 !important;
+  }
+}
+
+.empty-state {
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  .fas {
+    margin-bottom: 1rem;
+  }
+}

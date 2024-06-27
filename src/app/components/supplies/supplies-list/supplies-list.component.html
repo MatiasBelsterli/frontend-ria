@@ -1,4 +1,4 @@
-<div class="container px-2">
+<div class="container px-2 mb-4">
   <h2 class="title">Supplies List</h2>
   <button class="button is-primary mb-3" (click)="openModal(false)">Create Supply</button>
 
@@ -7,7 +7,7 @@
     Supply <span class="title is-6">{{supplyName}}</span> {{isEditMode ? 'updated' : 'created'}} successfully
   </div>
 
-  <form (submit)="loadSupplies()" class="my-4 is-flex-mobile is-justify-content-center">
+  <form (submit)="loadSupplies()" class="my-4 is-flex-mobile">
     <div class="field has-addons">
       <div class="control">
         <input type="text" name="searchField" [formControl]="searchTerm" placeholder="Search by name" class="input">
@@ -34,8 +34,8 @@
         <td>{{ supply.name }}</td>
         <td>{{ supply.unit }}</td>
         <td>{{ supply.price | currency }}</td>
-        <td>
-          <button class="button is-small is-primary mr-1 actionButton" (click)="openModal(true, supply)">Edit</button>
+        <td class="is-flex is-gap-1 is-flex-wrap-wrap">
+          <button class="button is-small is-primary actionButton" (click)="openModal(true, supply)">Edit</button>
           <button class="button is-small is-danger actionButton" (click)="deleteSupply(supply.id!)">Delete</button>
         </td>
       </tr>

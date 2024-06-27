@@ -57,8 +57,14 @@ export class OrderService {
     return this.http.patch<Order>(`${this.apiUrl}/bakers/${orderId}`, {});
   }
 
-  getOrdersByBaker() {
-    return this.http.get<Order[]>(`${this.apiUrl}/baker`);
+  getOrdersByBaker(page: number, limit: number, filters: any) {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    Object.keys(filters).forEach(key => {
+      if (filters[key]) params = params.set(key, filters[key]);
+    });
+    return this.http.get<Order[]>(`${this.apiUrl}/baker`, { params });
   }
 
   completeOrderByBaker(orderId: number) {

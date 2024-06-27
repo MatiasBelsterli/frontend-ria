@@ -1,17 +1,31 @@
-import { Component } from '@angular/core';
-import { Order } from '../../models/orders/order.model';
+import {Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { OrderService } from '../../services/orders/order.service';
-import { catchError, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { OrderStatus } from '../../enums/order-status';
+import { toast } from "bulma-toast";
+import { OrderComponent } from "../order-list/order/order.component";
 
 @Component({
   selector: 'app-baker-order-list',
   templateUrl: './baker-order-list.component.html',
   styleUrl: './baker-order-list.component.scss'
 })
-export class BakerOrderListComponent {
-  orderList: Order[] = [];
-  visibleOrderDetails: Set<number> = new Set();
+export class BakerOrderListComponent implements OnInit {
+  orderList$: Observable<any> = of( {orders: [], totalPages: 0});
+  @ViewChildren(OrderComponent) orderComponents!: QueryList<OrderComponent>;
+  hasError: boolean = false;
+  totalPages: number = 0;
+  currentPage = 1;
+  limit = 8;
+  filters: any = {
+    sortRequestDate: '',
+    sortDeliveryDate: '',
+    sortPrice: '',
+    status: '',
+    rangeFrom: null,
+    rangeTo: null,
+  };
+  rangeDateFilter: { from: Date | null, to: Date | null } = { from: null, to: null }
 
   constructor(private orderService: OrderService) { }
 
@@ -19,50 +33,62 @@ export class BakerOrderListComponent {
     this.loadOrders();
   }
 
+  onSort(filterType: string, value: any) {
+    this.filters.sortRequestDate = '';
+    this.filters.sortDeliveryDate = '';
+    this.filters.sortPrice = '';
+    if (filterType === 'rangeDate') {
+      this.filters.rangeFrom = value.target.value.from;
+      this.filters.rangeTo = value.target.value.to
+    } else {
+      this.filters[filterType] = value.target.value;
+    }
+    this.loadOrders();
+  }
 
   loadOrders() {
-    this.orderService.getOrdersByBaker().pipe(
+    this.orderList$ = this.orderService.getOrdersByBaker(this.currentPage, this.limit, this.filters).pipe(
       catchError(err => {
         console.error('Error getting orders', err);
+        this.hasError = true;
         return of([]);
       })
-    ).subscribe({
-      next: orders => {
-        this.orderList = orders;
-        console.log('Orders loaded successfully', orders);
-      },
-      error: error => {
-        console.error('Error subscribing to orders', error);
-      }
-    });
+    )
+    this.orderList$.subscribe(data => {
+      this.totalPages = data.totalPages;
+    })
   }
 
-  toggleOrderDetails(index: number) {
-    if (this.visibleOrderDetails.has(index)) {
-      this.visibleOrderDetails.delete(index);
-    } else {
-      this.visibleOrderDetails.add(index);
-    }
-  }
-
-  isOrderDetailsVisible(index: number): boolean {
-    return this.visibleOrderDetails.has(index);
-  }
-
-  completeOrder(orderId: number) {
+  completeOrder(event: { orderId: number, status: OrderStatus }) {
+    const orderId = event.orderId;
     this.orderService.completeOrderByBaker(orderId).subscribe({
       next: updatedOrder => {
-        const index = this.orderList.findIndex(order => order.id === orderId);
-        if (index !== -1) {
-          this.orderList[index].status = updatedOrder.status;
+        const modifiedOrder = this.orderComponents.find(order => order.order.id === orderId);
+        if (modifiedOrder) {
+          modifiedOrder.order.status = updatedOrder.status;
         }
-        console.log('Order status updated successfully', updatedOrder);
+        toast({
+          message: 'Order taken correctly!      ',
+          type: 'is-success',
+          position: 'top-center',
+          duration: 3000,
+          dismissible: true,
+        })
       },
-      error: error => {
-        console.error('Error updating order status', error);
+      error: () => {
+        toast({
+          message: 'Error updating order status      ',
+          type: 'is-danger',
+          position: 'top-center',
+          duration: 3000,
+          dismissible: true,
+        })
       }
     });
   }
-
-  protected readonly OrderStatus = OrderStatus;
+  onPageChange(page: number) {
+    if (page === this.currentPage) return
+    this.currentPage = page;
+    this.loadOrders();
+  }
 }

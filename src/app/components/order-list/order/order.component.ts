@@ -12,6 +12,7 @@ import { UserRole } from "../../../enums/user-role";
 export class OrderComponent implements OnInit {
   @Input({required:true}) order!: Order;
   @Input() options: boolean = false;
+  @Input() toBaker: boolean = false;
   @Output() changeOrderStatus = new EventEmitter<{ orderId: number, status: OrderStatus }>();
   userType: String = '';
   textButton: string = 'Options'
@@ -27,7 +28,10 @@ export class OrderComponent implements OnInit {
         this.textButton = this.order.status === 'CANCELLED' ? 'Cancelled' : 'Cancel'
         break;
       case UserRole.BAKER:
-        this.textButton = 'Take'
+        if (this.toBaker)
+          this.textButton = this.order.status === 'COMPLETED' ? 'Completed' : 'Complete'
+        else
+          this.textButton = 'Take'
         break;
     }
   }
