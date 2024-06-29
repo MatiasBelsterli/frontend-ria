@@ -4,7 +4,7 @@
     <div class="box">
       <div class="is-flex is-justify-content-center is-align-items-center">
         <figure class="image is-128x128">
-          <img class="is-rounded" [src]="user?.image ? 'data:image/jpeg;base64,' + user?.image : 'https://bulma.io/assets/images/placeholders/128x128.png'" />
+          <img class="is-rounded" alt="User Profile Image" [src]="user?.image ? 'data:image/jpeg;base64,' + user?.image : 'https://bulma.io/assets/images/placeholders/128x128.png'" />
         </figure>
       </div>
       <h6 class="title is-6 has-text-centered mt-5">Hello {{ user?.name }} {{ user?.lastName }}!</h6>
@@ -19,7 +19,7 @@
         <button class="button is-link" (click)="openEditModal()">Edit Profile</button>
       </div>
     </div>
-    <app-user-view></app-user-view>
+    <app-user-view *ngIf="UserRole.USER === user?.role"></app-user-view>
   </div>
 </div>
 

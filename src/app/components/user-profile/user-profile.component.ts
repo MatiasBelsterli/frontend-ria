@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from "../../services/users/user.service";
 import { User } from '../../models/users/user.model';
 import { fileValidator } from "../../validators/file-validator";
+import { UserRole } from "../../enums/user-role";
 
 @Component({
   selector: 'app-user-profile',
@@ -107,4 +108,6 @@ export class UserProfileComponent implements OnInit {
       );
     }
   }
+
+    protected readonly UserRole = UserRole;
 }
