@@ -91,4 +91,16 @@ export class BakerOrderListComponent implements OnInit {
     this.currentPage = page;
     this.loadOrders();
   }
+  clearFilter() {
+    this.filters = {
+      sortRequestDate: '',
+      sortDeliveryDate: '',
+      sortPrice: '',
+      status: '',
+      rangeFrom: null,
+      rangeTo: null,
+    };
+    this.rangeDateFilter = { from: null, to: null }
+    this.loadOrders();
+  }
 }

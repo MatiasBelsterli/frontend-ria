@@ -46,6 +46,11 @@ export class ShoppingCartComponent {
     this.requireUpdate = this.updateValues.length !== 0;
   }
 
+  deleteProduct({ id }: { id: number } ) {
+    this.cartService.remove(id).subscribe();
+    this.loadCart();
+  }
+
   updateQuantityCart() {
     this.updateValues.forEach(({ id, quantity }) => {
       this.cartService.updateQuantity(id, quantity).subscribe();
@@ -68,7 +73,7 @@ export class ShoppingCartComponent {
     const dateToSend: Date = this.deliveryDate
     this.cartProducts$.subscribe((productCart) => {
       this.orderService.createOrder(productCart, dateToSend).subscribe({
-        next: (order) => {
+        next: () => {
           this.cartService.clearCart().subscribe(() => {
             toast({
               message: 'Order created successfully!',

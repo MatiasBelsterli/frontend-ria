@@ -83,4 +83,16 @@ export class AdminViewComponent implements OnInit {
   toggleModal(to: boolean): void {
     this.isModalActive = to;
   }
+  clearFilter() {
+    this.filters = {
+      sortRequestDate: '',
+      sortDeliveryDate: '',
+      sortPrice: '',
+      status: '',
+      rangeFrom: null,
+      rangeTo: null,
+    };
+    this.rangeDateFilter = { from: null, to: null }
+    this.loadOrders();
+  }
 }

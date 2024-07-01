@@ -1,10 +1,10 @@
-<div class="mx-4 px-2" id="cart">
+<div class="px-2 container" id="cart">
   <h1 class="title is-4 mb-2">Your Cart</h1>
   <ng-container *ngIf="cartProducts$ | async as cartProducts; else loaderAndError">
     <ng-container *ngIf="cartProducts.length > 0">
       <div class="columns">
         <div class="column is-two-thirds">
-          <app-shopping-cart-product *ngFor="let cartProduct of cartProducts;" [product]="cartProduct" [initialQuantity]="cartProduct.quantity!!" (newerQuantity)="updateQuantity($event)" />
+          <app-shopping-cart-product *ngFor="let cartProduct of cartProducts;" [product]="cartProduct" [initialQuantity]="cartProduct.quantity!!" (newerQuantity)="updateQuantity($event)" (deleted)="deleteProduct($event)" />
         </div>
         <div class="column is-one-third">
           <h2 class="title is-5">Cart totals</h2>
