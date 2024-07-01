@@ -33,7 +33,7 @@ export class ProductCreateComponent implements OnInit {
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]*$')]],
+      price: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+(\.[0-9]{1,3})?$')]],
       description: ['', Validators.required],
       image: ['', fileValidator(['image/jpeg', 'image/png'], 2 * 1024 * 1024)],
       supplies: this.fb.array([], noDuplicateSupplies())
