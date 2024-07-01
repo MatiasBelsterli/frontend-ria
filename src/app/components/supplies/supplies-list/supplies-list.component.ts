@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Supply } from "../../../models/supplies/supply.model";
 import { SuppliesService } from "../../../services/supplies/supplies.service";
 import { FormControl } from "@angular/forms";
+import {toast} from "bulma-toast";
 
 @Component({
   selector: 'app-supplies-list',
@@ -52,8 +53,26 @@ export class SuppliesListComponent implements OnInit {
   }
 
   deleteSupply(id: number): void {
-    this.suppliesService.deleteSupply(id).subscribe(() => {
-      this.loadSupplies();
+    this.suppliesService.deleteSupply(id).subscribe({
+      next: () => {
+        toast({
+          message: 'Supply deleted successfully!      ',
+          type: 'is-success',
+          position: 'top-center',
+          duration: 3000,
+          dismissible: true,
+        })
+        this.loadSupplies();
+      },
+      error: err => {
+        toast({
+          message: 'Error to delete supply      ',
+          type: 'is-danger',
+          position: 'top-center',
+          duration: 3000,
+          dismissible: true,
+        })
+      }
     });
   }
 
