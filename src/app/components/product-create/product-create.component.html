@@ -21,7 +21,7 @@
         <div class="field">
           <label class="label" for="priceProduct">Price</label>
           <div class="control">
-            <input id="priceProduct" class="input" type="text" placeholder="Price Here" formControlName="price">
+            <input id="priceProduct" class="input" type="number" placeholder="Price Here" formControlName="price">
           </div>
           <p class="help is-danger"
              *ngIf="(productForm.get('price')?.invalid && productForm.get('price')?.touched) || (formSubmitted && productForm.get('price')?.invalid)">
