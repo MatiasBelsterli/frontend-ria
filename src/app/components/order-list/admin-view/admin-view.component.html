@@ -45,6 +45,9 @@
       (ngModelChange)="onSort('rangeDate', {target: {value: {to: this.rangeDateFilter.to, from: this.rangeDateFilter.from}}})"
     >
   </div>
+  <div (click)="clearFilter()">
+    <button class="button">Clear</button>
+  </div>
 </div>
 <div class="mb-4">
   <button class="button" (click)="toggleModal(true)">View all supplies</button>

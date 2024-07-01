@@ -43,6 +43,9 @@
         (ngModelChange)="onSort('rangeDate', {target: {value: {to: this.rangeDateFilter.to, from: this.rangeDateFilter.from}}})"
       >
     </div>
+    <div (click)="clearFilter()">
+      <button class="button">Clear</button>
+    </div>
   </div>
   <section *ngIf="orderList$ | async as orderList; else loaderAndError">
     <ng-container *ngIf="orderList.orders.length > 0; else emptyState">

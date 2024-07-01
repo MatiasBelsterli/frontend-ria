@@ -63,3 +63,9 @@
   visibility: visible;
   opacity: 1;
 }
+
+@media screen and (max-width: 768px) {
+  #cart {
+    overflow-x: hidden;
+  }
+}

@@ -10,6 +10,7 @@ export class ShoppingCartProductComponent implements OnInit{
   @Input({ required: true }) product!: Product;
   @Input({ required: true }) initialQuantity!: number;
   @Output() newerQuantity = new EventEmitter<{ id: number, quantity: number | null }>;
+  @Output() deleted = new EventEmitter<{ id: number, quantity: number | null }>;
   urlImage: string = 'https://via.placeholder.com/128x128.png?text=Image'
 
   quantity: number = 0;
@@ -38,4 +39,8 @@ export class ShoppingCartProductComponent implements OnInit{
     this.emitNewQuantity();
   }
 
+  deleteProduct() {
+    this.quantity = 0;
+    this.deleted.emit({ id: this.product.id, quantity: 0 });
+  }
 }

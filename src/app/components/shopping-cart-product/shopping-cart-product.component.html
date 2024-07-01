@@ -14,7 +14,6 @@
     <div class="is-flex-shrink-0">
       <div class="is-flex is-align-items-center">
         <span>{{product.price | currency}} ea</span>
-
         <div class="control ml-3 is-hidden-mobile">
           <div class="is-flex">
             <p class="control">
@@ -29,7 +28,9 @@
             </p>
           </div>
         </div>
-
+        <span class="icon my-icon is-large" (click)="deleteProduct()">
+          <i class="fa-solid fa-x"></i>
+        </span>
       </div>
     </div>
   </div>

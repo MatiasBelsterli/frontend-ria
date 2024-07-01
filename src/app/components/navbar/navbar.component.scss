@@ -15,15 +15,14 @@
     flex: 1;
     width: 30%;
     --bulma-button-border-width: var(--bulma-control-border-width);
-    background-color: hsl(221, 14%, calc(9% + 0%));
-    border-color: hsl(221, 14%, calc(24% + 0%));
+    background-color: inherit;
     border-style: solid;
-    border-width: var(--bulma-button-border-width);
+    border-width: 1px;
     box-shadow: 0 0.0625em 0.125em hsla(0, 0%, 20%, 0.05), 0 0.125em 0.25em hsla(0, 0%, 20%, 0.05);
     padding: calc(0.5em - var(--bulma-button-border-width));
     text-align: center;
     white-space: nowrap;
     border-radius: 6px;
+    border-color: inherit;
   }
 }
-

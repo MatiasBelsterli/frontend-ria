@@ -87,4 +87,16 @@ export class UserViewComponent implements OnInit {
       }
     });
   }
+  clearFilter() {
+    this.filters = {
+      sortRequestDate: '',
+      sortDeliveryDate: '',
+      sortPrice: '',
+      status: '',
+      rangeFrom: null,
+      rangeTo: null,
+    };
+    this.rangeDateFilter = { from: null, to: null }
+    this.loadOrders();
+  }
 }

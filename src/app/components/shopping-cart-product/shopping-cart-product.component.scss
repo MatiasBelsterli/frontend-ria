@@ -10,20 +10,10 @@
   border-radius: 0 25px 25px 0;
 }
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.my-icon {
+  color: #b60000;
+  transition: color 0.3s ease;
 }
-
-input[type="number"] {
-  -moz-appearance: textfield;
-  /* Firefox */
-}
-
-input.no-arrows {
-  -webkit-appearance: none;
-  /* Safari and Chrome */
-  -moz-appearance: textfield;
-  /* Firefox */
+.my-icon:hover {
+  color: #0a7365;
 }
