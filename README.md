@@ -1,27 +1,63 @@
-# ProyectoRia
+# Bizcocho Commnader
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+This project is an Angular-based system that provides various functionalities for different types of users. Below is an overview of the system features:
 
-## Development server
+## System Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. **Login and Registration:**
+  - Authentication system to allow users to log in based on their roles.
+  - Registration forms for CLIENTS.
 
-## Code scaffolding
+2. **Product Management (ADMIN):**
+  - A page to list all available products.
+  - Forms to add, edit, and delete products.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+3. **Product Catalog (CLIENTS):**
+  - A page to view all available products.
+  - Functionality to select products and add them to a shopping cart.
+  - Functionality to interact with the shopping cart (Update quantities and set desired delivery date)
+  - Functionality to place orders (within the shopping cart).
+  - Functionality to cancel own orders not yet taken
 
-## Build
+4. **Order Management (BAKER):**
+  - A page to list all pending orders for the baker to select.
+  - A page to list all orders claimed by the baker.
+  - Functionality to update the status of orders (pending, in preparation, ready for pickup).
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+5. **User Profile:**
+  - Each user can access their profile to view personal data.
+  - Functionality for CLIENTS to check their orders (within the user profile)
 
-## Running unit tests
+## Getting Started
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Prerequisites
+- Node.js
+- Angular CLI
 
-## Running end-to-end tests
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/MatiasBelsterli/proyecto-ria
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd proyecto-ria
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Running the Application
+1. Start the development server:
+   ```bash 
+   npm start
+   ```
+2. Open your browser and navigate to `http://localhost:4200`.
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Contributing
+- Fork the repository.
+- Create a new branch (`git checkout -b feature/your-feature`).
+- Commit your changes (`git commit -am 'Add some feature'`).
+- Push to the branch (`git push origin feature/your-feature`).
+- Open a pull request.
