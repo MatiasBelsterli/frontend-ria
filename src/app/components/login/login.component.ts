@@ -12,6 +12,7 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   errorMessage: string = '';
+  isModalActive = false;
 
   constructor(private authService: AuthService, private router: Router, fb: FormBuilder) {
     this.loginForm = fb.group({
@@ -27,9 +28,18 @@ export class LoginComponent {
         localStorage.setItem('token', response.token);
         this.router.navigate(['/']);
       },
-      error => {
+      () => {
         this.errorMessage = 'Invalid email or password';
       }
     );
+  }
+
+  forgotPass(evt: Event) {
+    evt.preventDefault();
+    this.toggleModal(true)
+  }
+
+  toggleModal(to: boolean): void {
+    this.isModalActive = to;
   }
 }

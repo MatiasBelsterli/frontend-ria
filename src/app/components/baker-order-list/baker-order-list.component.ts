@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { OrderService } from '../../services/orders/order.service';
 import { catchError, Observable, of } from 'rxjs';
 import { OrderStatus } from '../../enums/order-status';
@@ -68,7 +68,7 @@ export class BakerOrderListComponent implements OnInit {
           modifiedOrder.order.status = updatedOrder.status;
         }
         toast({
-          message: 'Order taken correctly!      ',
+          message: 'Marked as completed correctly!      ',
           type: 'is-success',
           position: 'top-center',
           duration: 3000,
