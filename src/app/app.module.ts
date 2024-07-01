@@ -26,6 +26,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { SuppliesListComponent } from './components/supplies/supplies-list/supplies-list.component';
 import { SupplyModalComponent } from "./components/supplies/supply-modal/supply-modal.component";
 import { SuppliesListModalComponent } from './components/order-list/supplies-list-modal/supplies-list-modal.component';
+import { ForgotModalComponent } from './components/login/forgot-modal/forgot-modal.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { SuppliesListModalComponent } from './components/order-list/supplies-lis
     UserProfileComponent,
     SuppliesListComponent,
     SupplyModalComponent,
-    SuppliesListModalComponent
+    SuppliesListModalComponent,
+    ForgotModalComponent
   ],
   imports: [
     BrowserModule,

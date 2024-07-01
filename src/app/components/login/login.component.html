@@ -20,6 +20,9 @@
               <i class="fas fa-lock"></i>
             </span>
           </div>
+          <div class="has-text-right py-2">
+            <a (click)="forgotPass($event)">Forgot Password?</a>
+          </div>
         </div>
         <div class="field">
           <div class="control">
@@ -31,6 +34,11 @@
     </div>
   </div>
 </div>
+<app-forgot-modal
+  [isModalActive]="isModalActive"
+  (closeModalEvent)="toggleModal(false)"
+/>
+
 
 <button class="button" (click)="logBaker()">
   Baker
