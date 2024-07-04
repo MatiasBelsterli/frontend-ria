@@ -4,6 +4,8 @@ import { catchError, Observable, of } from 'rxjs';
 import { OrderStatus } from '../../enums/order-status';
 import { toast } from "bulma-toast";
 import { OrderComponent } from "../order-list/order/order.component";
+import {ProductSupply} from "../../models/products/product.model";
+import {Order} from "../../models/orders/order.model";
 
 @Component({
   selector: 'app-baker-order-list',
@@ -16,6 +18,8 @@ export class BakerOrderListComponent implements OnInit {
   hasError: boolean = false;
   totalPages: number = 0;
   currentPage = 1;
+  isModalActive = false;
+  supplies: ProductSupply[] = []
   limit = 8;
   filters: any = {
     sortRequestDate: '',
@@ -56,7 +60,20 @@ export class BakerOrderListComponent implements OnInit {
     )
     this.orderList$.subscribe(data => {
       this.totalPages = data.totalPages;
-    })
+      this.supplies = []
+      data.orders.forEach((order: Order) => {
+        order.products.forEach(product => {
+          product.supplies.forEach(supply => {
+            let supplyEntry = this.supplies.find(entry => entry.supplyId === supply.supplyId);
+            if (!supplyEntry) {
+              supplyEntry = { supplyId: supply.supplyId, quantity: 0 };
+              this.supplies.push(supplyEntry);
+            }
+            supplyEntry.quantity += supply.quantity * (product.quantity ?? 0);
+          });
+        });
+      });
+    });
   }
 
   completeOrder(event: { orderId: number, status: OrderStatus }) {
@@ -102,5 +119,9 @@ export class BakerOrderListComponent implements OnInit {
     };
     this.rangeDateFilter = { from: null, to: null }
     this.loadOrders();
+  }
+
+  toggleModal(to: boolean): void {
+    this.isModalActive = to;
   }
 }

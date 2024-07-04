@@ -46,6 +46,9 @@
     <div (click)="clearFilter()">
       <button class="button">Clear</button>
     </div>
+    <div class="mb-4">
+      <button class="button" (click)="toggleModal(true)">View all supplies</button>
+    </div>
   </div>
   <section *ngIf="orderList$ | async as orderList; else loaderAndError">
     <ng-container *ngIf="orderList.orders.length > 0; else emptyState">
@@ -92,3 +95,9 @@
     </ng-template>
   </ng-template>
 </div>
+
+<app-supplies-list-modal
+  [isModalActive]="isModalActive"
+  (closeModalEvent)="toggleModal(false)"
+  [supplies]="supplies"
+/>

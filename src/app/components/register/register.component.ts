@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "../../services/auth/auth-service/auth.service";
 import { fileValidator } from "../../validators/file-validator";
+import {toast} from "bulma-toast";
 
 @Component({
   selector: 'app-register',
@@ -82,10 +83,24 @@ export class RegisterComponent {
 
       this.authService.register(formData).subscribe({
         next: response => {
-          console.log('User registered successfully');
+          toast({
+            message: 'User has been registered successfully!     ',
+            type: 'is-success',
+            dismissible: true,
+            position: 'top-center',
+            duration: 4000,
+          });
+          this.registerForm.reset();
+          this.formSubmitted = false;
         },
         error: error => {
-          console.error('There was an error!', error);
+          toast({
+            message: 'An error has occurred       ',
+            type: 'is-warning',
+            dismissible: true,
+            position: 'top-center',
+            duration: 4000,
+          });
         }
       });
     } else {
